@@ -43,3 +43,9 @@ def deps do
   [{:phoenix_components, "~> 0.1.0"}]
 end
 ```
+
+## License
+
+phoenix_components is licensed under the MIT license.
+
+See [LICENSE](./LICENSE) for the full license text.
