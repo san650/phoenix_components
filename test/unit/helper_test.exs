@@ -1,4 +1,4 @@
-defmodule PhoenixComponents.HelpersTest do
+defmodule PhoenixComponents.Unit.HelpersTest do
   use ExUnit.Case
 
   alias PhoenixComponents.Helpers

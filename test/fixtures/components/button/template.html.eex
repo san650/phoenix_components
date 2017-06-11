@@ -1,0 +1,3 @@
+<button>
+  <%= @content %>
+</button>
