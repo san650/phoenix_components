@@ -131,6 +131,24 @@ Then you can use these helpers from your templates
 <% end %>
 ```
 
+### 5. Using attributes inside your components
+
+When calling a component you can pass any attribute you like.
+
+```eex
+<%= button type: :submit do %>
+  Submit form!
+<% end %>
+```
+
+Inside the component's template these attributes are going to be available in the `@attrs` map.
+
+```eex
+<button type="<%= @attrs.type %>>
+  <%= @content %>
+</button>
+```
+
 ## Configuration
 
 You can configure where to put the components by editing your application
