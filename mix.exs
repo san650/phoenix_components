@@ -47,7 +47,7 @@ defmodule PhoenixComponents.Mixfile do
 
   defp package do
     [
-      files: ["lib", "priv", "mix.exs", "README*", "LICENSE*"],
+      files: ["lib", "mix.exs", "README*", "LICENSE*"],
       licenses: ["MIT"],
       links: %{"GitHub" => "https://github.com/mvdwg/phoenix_components"},
       maintainers: ["Santiago Ferreira"],
