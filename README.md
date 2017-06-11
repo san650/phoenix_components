@@ -27,7 +27,7 @@ With the corresponding component definition
 ```ex
 # /components/button/view.ex
 defmodule Components.ButtonView do
-  use PhoenixComponents.View
+  use PhoenixComponents.Component
 
   def classes do
     "btn btn-default"
