@@ -47,4 +47,41 @@ defmodule PhoenixComponents.Integration.ComponentTest do
     end
   end
 
+  with "imported components" do
+    defmodule Imported do
+      use PhoenixComponents.View
+      import_components [:button, :jumbotron]
+    end
+
+    test "generates component/0 helper" do
+      {:safe, html} = Imported.button
+
+      assert to_string(html) == """
+      <button>
+      </button>
+      """
+    end
+
+    test "generates component/1 helper" do
+      {:safe, html} = Imported.button do
+        "Lorem ipsum"
+      end
+
+      assert to_string(html) == """
+      <button>
+      Lorem ipsum</button>
+      """
+    end
+
+    test "generates component/2 helper" do
+      {:safe, html} = Imported.jumbotron color: "yellow" do
+        "Foo bar"
+      end
+
+      assert to_string(html) == """
+      <div class="jumbotron-yellow">
+      Foo bar</div>
+      """
+    end
+  end
 end
