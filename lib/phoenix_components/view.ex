@@ -54,7 +54,7 @@ defmodule PhoenixComponents.View do
     do_component(name, block, attrs)
   end
 
-  defp do_component(name, content, attrs) when do
+  defp do_component(name, content, attrs) do
     safe_content = html_escape(content)
 
     name
@@ -65,5 +65,34 @@ defmodule PhoenixComponents.View do
 
   defp prefix_module(atom, base_module) do
     Module.concat(base_module, atom)
+  end
+
+  @doc """
+    Macro to generate helpers for components inside views.
+
+    ## Examples
+
+      import_components [:button, :jumbotron]
+
+      Then you can use the component directly
+
+      <%= button type: "submit" %>
+  """
+  defmacro import_components(components) do
+    for name <- components do
+      quote do
+        def unquote(name)(), do: component(unquote(name))
+
+        def unquote(name)(attrs), do: component(unquote(name), attrs)
+
+        def unquote(name)(attrs, block), do: component(unquote(name), attrs, block)
+      end
+    end
+  end
+
+  defmacro __using__(_) do
+    quote do
+      import PhoenixComponents.View
+    end
   end
 end

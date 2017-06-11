@@ -112,6 +112,25 @@ In any template, e.g. `web/templates/pages/show.html.eex` add the button compone
 
 The content inside the component block is passed to the component as the `@content` variable.
 
+### 4. Generating helpers for components
+
+You can import the components in any view by using the `import_components` function.
+
+```eex
+defmodule App.PageView do
+  use Phoenix.Web, :view
+  import_components [:button, :jumbotron]
+end
+```
+
+Then you can use these helpers from your templates
+
+```eex
+<%= button type: :submit do %>
+  Submit form!
+<% end %>
+```
+
 ## Configuration
 
 You can configure where to put the components by editing your application
