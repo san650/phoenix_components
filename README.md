@@ -112,9 +112,9 @@ In any template, e.g. `web/templates/pages/show.html.eex` add the button compone
 
 The content inside the component block is passed to the component as the `@content` variable.
 
-### 4. Generating helpers for components
+### 4. Importing components into views
 
-You can import the components in any view by using the `import_components` function.
+You can import the components in any view by using the `import_components` function. This allows you to avoid having to call `component` helper and instead just use the name of the component.
 
 ```eex
 defmodule App.PageView do
