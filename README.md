@@ -44,6 +44,17 @@ def deps do
 end
 ```
 
+## Configuration
+
+You can configure where to put the components by editing your application
+configuration file `config/config.exs`.
+
+```ex
+config :phoenix_components, path: "lib/foo/bar"
+```
+
+Components are obtained from `web/components` by default.
+
 ## License
 
 phoenix_components is licensed under the MIT license.
