@@ -3,6 +3,7 @@ defmodule PhoenixComponents.Component do
     quote do
       use Phoenix.View, root: Application.get_env(:phoenix_components, :path, "web/components")
       use Phoenix.HTML
+      use PhoenixComponents.View
     end
   end
 end

@@ -84,4 +84,18 @@ defmodule PhoenixComponents.Integration.ComponentTest do
       """
     end
   end
+
+  test "importing components inside other components" do
+    {:safe, html} = Renderer.component :compound
+
+    assert to_string(html) == """
+    <button>
+      <div class="jumbotron-red">
+
+        Hello, World!
+    </div>
+    </button>
+
+    """
+  end
 end
