@@ -25,7 +25,7 @@ You can use the new `component` helper in any template
 With the corresponding component definition
 
 ```ex
-# /components/button/view.ex
+# /web/components/button/view.ex
 defmodule Components.ButtonView do
   use PhoenixComponents.Component
 
