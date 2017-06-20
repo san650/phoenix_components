@@ -144,7 +144,7 @@ When calling a component you can pass any attribute you like.
 Inside the component's template these attributes are going to be available in the `@attrs` map.
 
 ```eex
-<button type="<%= @attrs.type %>>
+<button type="<%= @attrs.type %>">
   <%= @content %>
 </button>
 ```
