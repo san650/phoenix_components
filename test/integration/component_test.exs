@@ -5,45 +5,33 @@ defmodule PhoenixComponents.Integration.ComponentTest do
 
   with "a content block" do
     test "renders a component without attributes" do
-      {:safe, html} = Renderer.component :button do
+      html = Renderer.component :button do
         "Lorem ipsum"
       end
 
-      assert to_string(html) == """
-      <button>
-      Lorem ipsum</button>
-      """
+      assert parse(html) == {"button", [], ["\nLorem ipsum"]}
     end
 
     test "renders a component with attributes" do
-      {:safe, html} = Renderer.component :jumbotron, color: "red" do
+      html = Renderer.component :jumbotron, color: "red" do
         "Lorem ipsum"
       end
 
-      assert to_string(html) == """
-      <div class="jumbotron-red">
-      Lorem ipsum</div>
-      """
+      assert parse(html) == {"div", [{"class", "jumbotron-red"}], ["\nLorem ipsum"]}
     end
   end
 
   with "no content block" do
     test "renders a component without attributes (no block)" do
-      {:safe, html} = Renderer.component :button
+      html = Renderer.component :button
 
-      assert to_string(html) == """
-      <button>
-      </button>
-      """
+      assert parse(html) == {"button", [], []}
     end
 
     test "renders a component with attributes (no block)" do
-      {:safe, html} = Renderer.component :jumbotron, color: "blue"
+      html = Renderer.component :jumbotron, color: "blue"
 
-      assert to_string(html) == """
-      <div class="jumbotron-blue">
-      </div>
-      """
+      assert parse(html) == {"div", [{"class", "jumbotron-blue"}], []}
     end
   end
 
@@ -54,48 +42,37 @@ defmodule PhoenixComponents.Integration.ComponentTest do
     end
 
     test "generates component/0 helper" do
-      {:safe, html} = Imported.button
+      html = Imported.button
 
-      assert to_string(html) == """
-      <button>
-      </button>
-      """
+      assert parse(html) == {"button", [], []}
     end
 
     test "generates component/1 helper" do
-      {:safe, html} = Imported.button do
+      html = Imported.button do
         "Lorem ipsum"
       end
 
-      assert to_string(html) == """
-      <button>
-      Lorem ipsum</button>
-      """
+      assert parse(html) == {"button", [], ["\nLorem ipsum"]}
     end
 
     test "generates component/2 helper" do
-      {:safe, html} = Imported.jumbotron color: "yellow" do
+      html = Imported.jumbotron color: "yellow" do
         "Foo bar"
       end
 
-      assert to_string(html) == """
-      <div class="jumbotron-yellow">
-      Foo bar</div>
-      """
+      assert parse(html) == {"div", [{"class", "jumbotron-yellow"}], ["\nFoo bar"]}
     end
   end
 
   test "importing components inside other components" do
-    {:safe, html} = Renderer.component :compound
+    html = Renderer.component :compound
 
-    assert to_string(html) == """
-    <button>
-      <div class="jumbotron-red">
+    assert parse(html) == {"button", [], [
+      {"div", [{"class", "jumbotron-red"}], ["\n\n    Hello, World!\n"]}
+    ]}
+  end
 
-        Hello, World!
-    </div>
-    </button>
-
-    """
+  def parse({:safe, html}) do
+    Floki.parse(html)
   end
 end

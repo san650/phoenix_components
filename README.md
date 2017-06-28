@@ -1,4 +1,5 @@
 # phoenix_components
+[![Build Status](https://travis-ci.org/mvdwg/phoenix_components.svg?branch=master)](https://travis-ci.org/mvdwg/phoenix_components)
 
 This library helps you write encapsulated bits of HTML into a single unit called component in your server rendered Phoenix web site. Similar to how react/ember/web components do.
 
