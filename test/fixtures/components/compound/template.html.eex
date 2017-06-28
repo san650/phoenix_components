@@ -1,0 +1,5 @@
+<%= button do %>
+  <%= jumbotron color: "red" do %>
+    Hello, World!
+  <% end %>
+<% end %>
