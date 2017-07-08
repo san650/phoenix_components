@@ -1,6 +1,7 @@
 defmodule PhoenixComponents.View do
   import Phoenix.View, only: [render: 3]
   import Phoenix.HTML, only: [html_escape: 1]
+  import PhoenixComponents.Helpers, only: [to_pascal_case: 1]
 
   @doc """
     Helper to render a component by name.
@@ -58,8 +59,9 @@ defmodule PhoenixComponents.View do
     safe_content = html_escape(content)
 
     name
-    |> PhoenixComponents.Helpers.to_pascal_case
+    |> to_pascal_case
     |> prefix_module(Components)
+    |> prefix_module(to_pascal_case(Mix.Phoenix.otp_app))
     |> render("template.html", attrs: Enum.into(attrs, %{}), content: safe_content)
   end
 

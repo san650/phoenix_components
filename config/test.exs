@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :phoenix_components, path: "test/fixtures/components"
+config :phoenix_components, path: "test/fixtures"
