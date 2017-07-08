@@ -1,3 +1,3 @@
-defmodule Components.Button do
+defmodule PhoenixComponents.Components.Button do
   use PhoenixComponents.Component
 end

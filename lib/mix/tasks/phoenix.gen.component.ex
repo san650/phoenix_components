@@ -48,7 +48,7 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
   end
 
   embed_template :view, """
-  defmodule Components.<%= @module_name %> do
+  defmodule <%= @module_base %>.Components.<%= @module_name %> do
     use PhoenixComponents.Component
   end
   """
@@ -58,7 +58,7 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
   """
 
   embed_template :test, """
-  defmodule <%= @module_base %>.<%= @module_name %>Test do
+  defmodule <%= @module_base %>.Components.<%= @module_name %>Test do
     use ExUnit.Case
 
     test "renders block" do

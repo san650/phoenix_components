@@ -27,7 +27,7 @@ With the corresponding component definition
 
 ```ex
 # /web/components/button/view.ex
-defmodule Components.ButtonView do
+defmodule MyApp.Components.ButtonView do
   use PhoenixComponents.Component
 
   def classes do
@@ -80,7 +80,7 @@ Phoenix components are defined by two different parts, a view and a template.  T
 To create a button component you need to create the view file `web/components/button/view.ex` with the following content
 
 ```ex
-defmodule Components.Button do
+defmodule MyApp.Components.Button do
   use PhoenixComponents.Component
 
   def classes do
@@ -118,7 +118,7 @@ The content inside the component block is passed to the component as the `@conte
 You can import the components in any view by using the `import_components` function. This allows you to avoid having to call `component` helper and instead just use the name of the component.
 
 ```eex
-defmodule App.PageView do
+defmodule MyApp.PageView do
   use Phoenix.Web, :view
   import_components [:button, :jumbotron]
 end
@@ -159,7 +159,7 @@ configuration file `config/config.exs`.
 config :phoenix_components, path: "lib/foo/bar"
 ```
 
-Components are obtained from `web/components` by default.
+Components are obtained from `web` by default.
 
 ## License
 

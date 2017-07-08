@@ -1,4 +1,4 @@
-defmodule Components.Compound do
+defmodule PhoenixComponents.Components.Compound do
   use PhoenixComponents.Component
 
   import_components [:button, :jumbotron]
