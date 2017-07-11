@@ -11,7 +11,7 @@ defmodule PhoenixComponents.Mixfile do
       package: package(),
       source_url: "https://github.com/mvdwg/phoenix_components",
       start_permanent: Mix.env == :prod,
-      version: "0.2.0",
+      version: "1.0.0",
     ]
   end
 
