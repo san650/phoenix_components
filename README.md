@@ -53,6 +53,14 @@ def deps do
 end
 ```
 
+and then you have to add one config to your config file
+
+```elixir
+config :phoenix_components, app_name: MyApp
+```
+
+where `MyApp` is the module that represents your phoenix app.
+
 ## Quick start
 
 This is a quick overview of how to create and use a component in your application.

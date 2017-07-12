@@ -57,11 +57,12 @@ defmodule PhoenixComponents.View do
 
   defp do_component(name, content, attrs) do
     safe_content = html_escape(content)
+    appModule = Application.fetch_env!(:phoenix_components, :app_name)
 
     name
     |> to_pascal_case
     |> prefix_module(Components)
-    |> prefix_module(to_pascal_case(Mix.Phoenix.otp_app))
+    |> prefix_module(appModule)
     |> render("template.html", attrs: Enum.into(attrs, %{}), content: safe_content)
   end
 

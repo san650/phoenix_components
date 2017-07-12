@@ -30,10 +30,15 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
   defp generate(component_name: name) do
     path = Application.get_env(:phoenix_components, :path, "web/components")
     path = Path.join(path, name)
+    [module_base] =
+      :phoenix_components
+      |> Application.fetch_env!(:app_name)
+      |> Module.split
+
     assigns = %{
       name: name,
       module_name: to_pascal_case(name),
-      module_base: to_pascal_case(Mix.Phoenix.otp_app),
+      module_base: module_base,
     }
 
     # Creates component
