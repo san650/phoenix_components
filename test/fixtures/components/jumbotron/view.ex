@@ -1,4 +1,4 @@
-defmodule PhoenixComponents.Components.Jumbotron do
+defmodule MyApp.Components.Jumbotron do
   use PhoenixComponents.Component
 
   def class(color) do
