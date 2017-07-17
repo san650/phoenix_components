@@ -1,4 +1,53 @@
 defmodule PhoenixComponents.View do
+  @moduledoc """
+  This module provides a way to easily generate helper functions to render
+  components.
+
+  The module can be included by others Phoenix.View modules to import components easily.
+
+  ## Example
+
+  When working on a project with several components you can use this module in your `web/web.ex` definition.
+
+      defmodule MyApp.Web do
+
+        #...
+
+        def view do
+          quote do
+            use Phoenix.View, root: "web/templates"
+            use PhoenixComponents.View
+
+            # ...
+          end
+        end
+      end
+
+  After you include the module you can use the following helpers
+
+      defmodule MyApp.UserView do
+        use MyApp.Web, :view
+
+        import_component [:button, :jumbotron]
+      end
+
+  After you import a component into the view module you can use the component as follows
+
+      <div>
+        <%= button type: :primary do %>
+          Submit
+        <% end %>
+      </div>
+
+  Alternatively, you can also render a component without importing it by using the helper function `component`.
+
+      <div>
+        <%= component :button, type: :primary do %>
+          Submit
+        <% end %>
+      </div>
+  """
+
   import Phoenix.View, only: [render: 3]
   import Phoenix.HTML, only: [html_escape: 1]
   import PhoenixComponents.Helpers, only: [to_pascal_case: 1]
@@ -6,9 +55,9 @@ defmodule PhoenixComponents.View do
   @doc """
     Helper to render a component by name.
 
-    ## Examples
+    ## Example
 
-      <%= component :button %>
+        <%= component :button %>
   """
   def component(name) do
     do_component(name, "", [])
@@ -17,11 +66,11 @@ defmodule PhoenixComponents.View do
   @doc """
     Helper to render a component by name and specifying the content in a block.
 
-    ## Examples
+    ## Example
 
-      <%= component :button do %>
-        Submit
-      <% end %>
+        <%= component :button do %>
+          Submit
+        <% end %>
   """
   def component(name, [do: block]) do
     do_component(name, block, [])
@@ -32,9 +81,9 @@ defmodule PhoenixComponents.View do
 
     Note that attributes are available in the template as the map @attrs.
 
-    ## Examples
+    ## Example
 
-      <%= component :button, color: "red", size: "small", label: "Submit" %>
+        <%= component :button, color: "red", size: "small", label: "Submit" %>
   """
   def component(name, attrs) when is_list(attrs) do
     do_component(name, "", attrs)
@@ -45,11 +94,11 @@ defmodule PhoenixComponents.View do
 
     Note that attributes are available in the template as the map @attrs.
 
-    ## Examples
+    ## Example
 
-      <%= component :button, color: "red", size: "small" do %>
-        Submit
-      <% end %>
+        <%= component :button, color: "red", size: "small" do %>
+          Submit
+        <% end %>
   """
   def component(name, attrs, [do: block]) when is_list(attrs) do
     do_component(name, block, attrs)
@@ -73,13 +122,13 @@ defmodule PhoenixComponents.View do
   @doc """
     Macro to generate helpers for components inside views.
 
-    ## Examples
+    ## Example
 
-      import_components [:button, :jumbotron]
+        import_components [:button, :jumbotron]
 
-      Then you can use the component directly
+    Then you can use the component directly
 
-      <%= button type: "submit" %>
+        <%= button type: "submit" %>
   """
   defmacro import_components(components) do
     for name <- components do
