@@ -1,5 +1,3 @@
 defmodule PhoenixComponents do
-  @moduledoc """
-  Documentation for PhoenixComponents.
-  """
+  @moduledoc false
 end

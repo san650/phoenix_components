@@ -13,12 +13,31 @@ This library helps you write encapsulated bits of HTML into a single unit called
 
 ## Synopsis
 
-You can use the new `component` helper in any template
+You can generate a new component with the built-in generator
+
+```
+$ mix phoenix.gen.component button
+* creating web/components/button/view.ex
+* creating web/components/button/template.html.eex
+* creating test/components/button_test.exs
+```
+
+Then you can use the new component in a template
+
+```ex
+# /web/views/page_view.ex
+defmodule MyApp.PageView do
+  use MyApp.Web, :view
+  use PhoenixComponents.View
+
+  import_components [:button]
+end
+```
 
 ```eex
-# /web/templates/pages/show.html.eex
+# /web/templates/page/show.html.eex
 
-<%= component :button do %>
+<%= button type: :primary do %>
   My cool button!
 <% end %>
 ```
@@ -30,15 +49,15 @@ With the corresponding component definition
 defmodule MyApp.Components.ButtonView do
   use PhoenixComponents.Component
 
-  def classes do
-    "btn btn-default"
+  def class_for_type(type) do
+    "btn btn--" <> to_string(type)
   end
 end
 ```
 
 ```eex
 # /web/components/button/template.html.eex
-<button class="<%= classes %>">
+<button class="<%= class_for_type @attrs.type %>">
   <%= @content %>
 </button>
 ```
@@ -49,7 +68,7 @@ Add `phoenix_components` to your `mix.exs` deps:
 
 ```elixir
 def deps do
-  [{:phoenix_components, "~> 0.1.0"}]
+  [{:phoenix_components, "~> 1.0.0"}]
 end
 ```
 
@@ -60,6 +79,16 @@ config :phoenix_components, app_name: MyApp
 ```
 
 where `MyApp` is the module that represents your phoenix app.
+
+### Extra step for Elixir 1.3 and lower
+
+If you're running Elixir 1.3 or lower, don't forget to add it under you applications list in mix.exs
+
+```ex
+def application do
+  [applications: [:phoenix_components]]
+end
+```
 
 ## Quick start
 
