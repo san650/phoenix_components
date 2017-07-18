@@ -16,7 +16,7 @@ defmodule PhoenixComponents.Component do
         use PhoenixComponents.Component
 
         def class_for_type(type) do
-          "btn--" <> type
+          "btn--" <> to_string(type)
         end
       end
 
