@@ -198,6 +198,11 @@ config :phoenix_components, path: "lib/foo/bar"
 
 Components are obtained from `web` by default.
 
+## Project's health
+
+[![Build Status](https://travis-ci.org/mvdwg/phoenix_components.svg?branch=master)](https://travis-ci.org/mvdwg/phoenix_components)
+[![codebeat badge](https://codebeat.co/badges/135fa334-d08a-4b0a-8bc5-1ae5ea0c939a)](https://codebeat.co/projects/github-com-san650-phoenix_components-master)
+
 ## License
 
 phoenix_components is licensed under the MIT license.
