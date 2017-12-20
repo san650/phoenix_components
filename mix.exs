@@ -9,7 +9,7 @@ defmodule PhoenixComponents.Mixfile do
       description: description(),
       elixir: "~> 1.4",
       package: package(),
-      source_url: "https://github.com/mvdwg/phoenix_components",
+      source_url: "https://github.com/san650/phoenix_components",
       start_permanent: Mix.env == :prod,
       version: "1.0.2",
     ]
@@ -51,7 +51,7 @@ defmodule PhoenixComponents.Mixfile do
     [
       files: ["lib", "mix.exs", "README*", "LICENSE*"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/mvdwg/phoenix_components"},
+      links: %{"GitHub" => "https://github.com/san650/phoenix_components"},
       maintainers: ["Santiago Ferreira"],
       name: :phoenix_components,
     ]
