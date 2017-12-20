@@ -1,0 +1,15 @@
+engines:
+  credo:
+    enabled: true
+  stylelint:
+    enabled: true
+  shellcheck:
+    enabled: true
+  scss-lint:
+    enabled: true
+  markdownlint:
+    enabled: true
+  eslint:
+    enabled: true
+  nodesecurity:
+    enabled: true
