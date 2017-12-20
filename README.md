@@ -1,4 +1,5 @@
 # phoenix_components
+
 [![Build Status](https://travis-ci.org/san650/phoenix_components.svg?branch=master)](https://travis-ci.org/san650/phoenix_components)
 
 This library helps you write encapsulated bits of HTML into a single unit called
