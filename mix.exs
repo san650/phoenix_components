@@ -34,10 +34,11 @@ defmodule PhoenixComponents.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:phoenix, "~> 1.2.1"},
-      {:phoenix_html, "~> 2.6"},
+      {:credo, "~> 0.3", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:floki, ">= 0.17.2", only: :test},
+      {:phoenix, "~> 1.2.1"},
+      {:phoenix_html, "~> 2.6"},
     ]
   end
 

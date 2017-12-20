@@ -1,7 +1,10 @@
 # phoenix_components
+
 [![Build Status](https://travis-ci.org/san650/phoenix_components.svg?branch=master)](https://travis-ci.org/san650/phoenix_components)
 
-This library helps you write encapsulated bits of HTML into a single unit called component in your server rendered Phoenix web site. Similar to how react/ember/web components do.
+This library helps you write encapsulated bits of HTML into a single unit called
+component in your server rendered Phoenix web site. Similar to how
+react/ember/web components do.
 
 ## Table of content
 
@@ -82,7 +85,8 @@ where `MyApp` is the module that represents your phoenix app.
 
 ### Extra step for Elixir 1.3 and lower
 
-If you're running Elixir 1.3 or lower, don't forget to add it under you applications list in mix.exs
+If you're running Elixir 1.3 or lower, don't forget to add it under you
+applications list in mix.exs
 
 ```ex
 def application do
@@ -92,7 +96,8 @@ end
 
 ## Quick start
 
-This is a quick overview of how to create and use a component in your application.
+This is a quick overview of how to create and use a component in your
+application.
 
 ### 1. Importing PhoenixComponents.View in all application views
 
@@ -112,9 +117,11 @@ def view do
 
 ### 2. Creating a `button` component
 
-Phoenix components are defined by two different parts, a view and a template.  The view contains helper functions and the template contains the HTML.
+Phoenix components are defined by two different parts, a view and a template.
+The view contains helper functions and the template contains the HTML.
 
-To create a button component you need to create the view file `web/components/button/view.ex` with the following content
+To create a button component you need to create the view file
+`web/components/button/view.ex` with the following content
 
 ```ex
 defmodule MyApp.Components.Button do
@@ -126,7 +133,8 @@ defmodule MyApp.Components.Button do
 end
 ```
 
-Then create the template file `web/components/button/template.html.eex` with the following content
+Then create the template file `web/components/button/template.html.eex` with the
+following content
 
 ```eex
 <button class="<%= classes %>">
@@ -134,13 +142,16 @@ Then create the template file `web/components/button/template.html.eex` with the
 </button>
 ```
 
-Note that `@content` variable will contain the content defined inside the button block. Next section shows this in more detail.
+Note that `@content` variable will contain the content defined inside the button
+block. Next section shows this in more detail.
 
 ### 3. Using the component
 
-You can use the component from any template by using the helper function `component`.
+You can use the component from any template by using the helper function
+`component`.
 
-In any template, e.g. `web/templates/pages/show.html.eex` add the button component.
+In any template, e.g. `web/templates/pages/show.html.eex` add the button
+component.
 
 ```eex
 <%= component :button do %>
@@ -148,11 +159,14 @@ In any template, e.g. `web/templates/pages/show.html.eex` add the button compone
 <% end %>
 ```
 
-The content inside the component block is passed to the component as the `@content` variable.
+The content inside the component block is passed to the component as the
+`@content` variable.
 
 ### 4. Importing components into views
 
-You can import the components in any view by using the `import_components` function. This allows you to avoid having to call `component` helper and instead just use the name of the component.
+You can import the components in any view by using the `import_components`
+function. This allows you to avoid having to call `component` helper and instead
+just use the name of the component.
 
 ```eex
 defmodule MyApp.PageView do
@@ -179,7 +193,8 @@ When calling a component you can pass any attribute you like.
 <% end %>
 ```
 
-Inside the component's template these attributes are going to be available in the `@attrs` map.
+Inside the component's template these attributes are going to be available in
+the `@attrs` map.
 
 ```eex
 <button type="<%= @attrs.type %>">

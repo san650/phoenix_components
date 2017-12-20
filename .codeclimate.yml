@@ -1,0 +1,13 @@
+---
+version: "2"
+plugins:
+  credo:
+    enabled: true
+    channel: "beta"
+  markdownlint:
+    enabled: true
+    checks:
+      MD002: # "First header should be a h1 header"
+        enabled: false
+  shellcheck:
+    enabled: true

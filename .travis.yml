@@ -2,4 +2,7 @@ language: elixir
 sudo: false
 elixir:
   - 1.4.4
+branches:
+  only:
+    - master
 otp_release: 19.3
