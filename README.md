@@ -1,5 +1,5 @@
 # phoenix_components
-[![Build Status](https://travis-ci.org/mvdwg/phoenix_components.svg?branch=master)](https://travis-ci.org/mvdwg/phoenix_components)
+[![Build Status](https://travis-ci.org/san650/phoenix_components.svg?branch=master)](https://travis-ci.org/san650/phoenix_components)
 
 This library helps you write encapsulated bits of HTML into a single unit called component in your server rendered Phoenix web site. Similar to how react/ember/web components do.
 
@@ -200,7 +200,7 @@ Components are obtained from `web` by default.
 
 ## Project's health
 
-[![Build Status](https://travis-ci.org/mvdwg/phoenix_components.svg?branch=master)](https://travis-ci.org/mvdwg/phoenix_components)
+[![Build Status](https://travis-ci.org/san650/phoenix_components.svg?branch=master)](https://travis-ci.org/san650/phoenix_components)
 [![codebeat badge](https://codebeat.co/badges/135fa334-d08a-4b0a-8bc5-1ae5ea0c939a)](https://codebeat.co/projects/github-com-san650-phoenix_components-master)
 
 ## License
