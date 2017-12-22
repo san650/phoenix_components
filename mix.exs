@@ -12,6 +12,8 @@ defmodule PhoenixComponents.Mixfile do
       source_url: "https://github.com/san650/phoenix_components",
       start_permanent: Mix.env == :prod,
       version: "1.0.2",
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     ]
   end
 
@@ -36,6 +38,7 @@ defmodule PhoenixComponents.Mixfile do
     [
       {:credo, "~> 0.3", only: [:dev, :test]},
       {:ex_doc, ">= 0.0.0", only: :dev},
+      {:excoveralls, "~> 0.7", only: :test},
       {:floki, ">= 0.17.2", only: :test},
       {:phoenix, "~> 1.2.1"},
       {:phoenix_html, "~> 2.6"},
