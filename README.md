@@ -218,6 +218,7 @@ Components are obtained from `web` by default.
 [![Build Status](https://travis-ci.org/san650/phoenix_components.svg?branch=master)](https://travis-ci.org/san650/phoenix_components)
 [![codebeat badge](https://codebeat.co/badges/135fa334-d08a-4b0a-8bc5-1ae5ea0c939a)](https://codebeat.co/projects/github-com-san650-phoenix_components-master)
 [![Ebert](https://ebertapp.io/github/san650/phoenix_components.svg)](https://ebertapp.io/github/san650/phoenix_components)
+[![Coverage Status](https://coveralls.io/repos/github/san650/phoenix_components/badge.svg?branch=master)](https://coveralls.io/github/san650/phoenix_components?branch=master)
 
 ## License
 
