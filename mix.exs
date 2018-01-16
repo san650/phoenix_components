@@ -11,7 +11,7 @@ defmodule PhoenixComponents.Mixfile do
       package: package(),
       source_url: "https://github.com/san650/phoenix_components",
       start_permanent: Mix.env == :prod,
-      version: "1.0.2",
+      version: "1.0.3",
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     ]
