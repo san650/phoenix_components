@@ -74,9 +74,9 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
       assert raw(html) == "<p>Hello, World!</p>"
     end
 
-    def raw({:safe, html}) do
+    def raw(html) do
       html
-      |> to_string
+      |> Phoenix.HTML.safe_to_string
       |> String.trim
     end
   end
