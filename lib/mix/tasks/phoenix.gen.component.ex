@@ -28,8 +28,10 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
   end
 
   defp generate(component_name: name) do
-    path = Application.get_env(:phoenix_components, :path, "web/components")
-    path = Path.join(path, name)
+    config_path = Application.get_env(:phoenix_components, :path, "web")
+
+    path = Path.join([config_path, "components", name])
+
     [module_base] =
       :phoenix_components
       |> Application.fetch_env!(:app_name)
@@ -47,7 +49,12 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
     create_file Path.join(path, "template.html.eex"), template_text()
 
     # Creates test
-    test_path = "test/components"
+    test_path =
+      config_path
+      |> String.replace_prefix("lib", "test") # Phoenix >= 1.3
+      |> String.replace_prefix("web", "test") # Phoenix < 1.3
+      |> Kernel.<>("/components")
+
     File.mkdir_p!(test_path)
     create_file Path.join(test_path, "#{name}_test.exs"), test_template(assigns)
   end
