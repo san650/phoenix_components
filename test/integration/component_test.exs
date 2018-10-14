@@ -3,11 +3,11 @@ defmodule PhoenixComponents.Integration.ComponentTest do
 
   alias PhoenixComponents.View, as: Renderer
 
-  @app_module MyApp
+  @namespace MyApp.Components
 
   with "a content block" do
     test "renders a component without attributes" do
-      html = Renderer.component @app_module, :button do
+      html = Renderer.component @namespace, :button do
         "Lorem ipsum"
       end
 
@@ -15,7 +15,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
     end
 
     test "renders a component with attributes" do
-      html = Renderer.component @app_module, :jumbotron, color: "red" do
+      html = Renderer.component @namespace, :jumbotron, color: "red" do
         "Lorem ipsum"
       end
 
@@ -25,13 +25,13 @@ defmodule PhoenixComponents.Integration.ComponentTest do
 
   with "no content block" do
     test "renders a component without attributes (no block)" do
-      html = Renderer.component @app_module, :button
+      html = Renderer.component @namespace, :button
 
       assert parse(html) == {"button", [], []}
     end
 
     test "renders a component with attributes (no block)" do
-      html = Renderer.component @app_module, :jumbotron, color: "blue"
+      html = Renderer.component @namespace, :jumbotron, color: "blue"
 
       assert parse(html) == {"div", [{"class", "jumbotron-blue"}], []}
     end
@@ -39,7 +39,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
 
   with "imported components" do
     defmodule Imported do
-      use PhoenixComponents.View, app_module: MyApp
+      use PhoenixComponents.View, namespace: MyApp.Components
       import_components [:button, :jumbotron]
     end
 
@@ -68,8 +68,8 @@ defmodule PhoenixComponents.Integration.ComponentTest do
 
   with "imported components using from module" do
     defmodule ImportedFrom do
-      use PhoenixComponents.View, app_module: NonExisting
-      import_components [:button, :jumbotron], from: MyApp
+      use PhoenixComponents.View, namespace: NonExisting
+      import_components [:button, :jumbotron], from: MyApp.Components
     end
 
     test "generates component/1 helper using from module" do
@@ -96,7 +96,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
   end
 
   test "importing components inside other components" do
-    html = Renderer.component @app_module, :compound
+    html = Renderer.component @namespace, :compound
 
     assert parse(html) == {"button", [], [
       {"div", [{"class", "jumbotron-red"}], ["\n\n    Hello, World!\n"]}

@@ -25,22 +25,22 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
           "Expected module name to be given, please use \"mix phx.component lib/my_app_web MyApp my_component\""
         )
 
-      [base_path, module_base, name | _] ->
-        generate(base_path: base_path, module_base: module_base, component_name: name)
+      [root, namespace, name | _] ->
+        generate(root, namespace, name)
     end
   end
 
-  defp generate(path: base_path, module_base: module_base, component_name: name) do
-    path = Path.join([base_path, "components", name])
+  defp generate(root, namespace, name) do
+    path = Path.join([root, name])
 
-    [module_base] =
-      module_base
+    [namespace] =
+      namespace
       |> Module.split()
 
     assigns = %{
       name: name,
       module_name: to_pascal_case(name),
-      module_base: module_base
+      namespace: namespace
     }
 
     # Creates component
@@ -50,20 +50,19 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
 
     # Creates test
     test_path =
-      base_path
+      root
       # Phoenix >= 1.3
       |> String.replace_prefix("lib", "test")
       # Phoenix < 1.3
       |> String.replace_prefix("web", "test")
-      |> Kernel.<>("/components")
 
     File.mkdir_p!(test_path)
     create_file(Path.join(test_path, "#{name}_test.exs"), test_template(assigns))
   end
 
   embed_template(:view, """
-  defmodule <%= @module_base %>.Components.<%= @module_name %> do
-    use <%= @module_base %>.Component
+  defmodule <%= @namespace %>.<%= @module_name %> do
+    use <%= @namespace %>.Component
   end
   """)
 
@@ -72,11 +71,11 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
   """)
 
   embed_template(:test, """
-  defmodule <%= @module_base %>.Components.<%= @module_name %>Test do
+  defmodule <%= @namespace %>.<%= @module_name %>Test do
     use ExUnit.Case
 
     test "renders block" do
-      html = PhoenixComponents.View.component <%= @module_base %>, :<%= @name %> do
+      html = PhoenixComponents.View.component <%= @namespace %>, :<%= @name %> do
         "Hello, World!"
       end
 

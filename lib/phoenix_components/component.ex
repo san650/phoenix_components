@@ -8,9 +8,9 @@ defmodule PhoenixComponents.Component do
 
   ## Example
 
-  PhoenixComponents defines the view template at `web/components/` by default.
+  PhoenixComponents defines the view template at `lib/myapp_web/components/` by default.
 
-  E.g. `web/components/awesome_button/view.eex`
+  E.g. `lib/myapp_web/components/awesome_button/view.eex`
 
       defmodule YourApp.Components.AwesomeButton do
         use PhoenixComponents.Component
@@ -22,7 +22,7 @@ defmodule PhoenixComponents.Component do
 
   This in combination with a template defines a component.
 
-  E.g. `web/components/awesome_button/template.html.eex`
+  E.g. `lib/myapp_web/components/awesome_button/template.html.eex`
 
       <button class="<%= class_for_type @attr.type %>">
         <%= @content %>
@@ -35,12 +35,12 @@ defmodule PhoenixComponents.Component do
   """
   defmacro __using__(opts) do
     root = Keyword.get(opts, :root)
-    app_module = Keyword.get(opts, :app_module)
+    namespace = Keyword.get(opts, :namespace)
 
     quote do
-      use Phoenix.View, root: unquote(root)
+      use Phoenix.View, root: unquote(root), namespace: unquote(namespace)
       use Phoenix.HTML
-      use PhoenixComponents.View, app_module: unquote(app_module)
+      use PhoenixComponents.View, namespace: unquote(namespace)
     end
   end
 end

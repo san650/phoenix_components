@@ -4,5 +4,5 @@ defmodule MyApp.Components.Compound do
   """
   use MyApp.Component
 
-  import_components [:button, :jumbotron], from: MyApp
+  import_components [:button, :jumbotron], from: MyApp.Components
 end
