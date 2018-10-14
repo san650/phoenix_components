@@ -78,10 +78,18 @@ def deps do
 end
 ```
 
-and then you have to add one config to your config file
+and create your component helper
 
 ```elixir
-config :phoenix_components, app_name: MyApp
+defmodule MyApp.Component do
+  defmacro __using__(_opts) do
+    quote do
+      use PhoenixComponents.Component,
+        root: "lib/myapp_web",
+        module_base: MyApp
+    end
+  end
+end
 ```
 
 where `MyApp` is the module that represents your phoenix app.
@@ -204,17 +212,6 @@ the `@attrs` map.
   <%= @content %>
 </button>
 ```
-
-## Configuration
-
-You can configure where to put the components by editing your application
-configuration file `config/config.exs`.
-
-```ex
-config :phoenix_components, path: "lib/foo/bar"
-```
-
-Components are obtained from `web` by default.
 
 ## Project's health
 
