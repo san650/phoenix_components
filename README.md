@@ -28,7 +28,7 @@ $ mix phoenix.gen.component button
 Then you can use the new component in a template
 
 ```ex
-# /web/views/page_view.ex
+# lib/myapp_web/views/page_view.ex
 defmodule MyApp.PageView do
   use MyApp.Web, :view
   use PhoenixComponents.View, namespace: MyAppWeb.Components
@@ -41,7 +41,7 @@ end
 ```
 
 ```eex
-# /web/templates/page/show.html.eex
+# lib/myapp_web/templates/page/show.html.eex
 
 <%= button type: :primary do %>
   My cool button!
@@ -51,8 +51,8 @@ end
 With the corresponding component definition
 
 ```ex
-# /web/components/button/view.ex
-defmodule MyApp.Components.ButtonView do
+# lib/myapp_web/components/button/view.ex
+defmodule MyApp.Components.Button do
   use PhoenixComponents.Component, namespace: MyAppWeb.Components,
                                    root: "lib/myapp_web/components"
 
@@ -63,7 +63,7 @@ end
 ```
 
 ```eex
-# /web/components/button/template.html.eex
+# lib/myapp_web/components/button/template.html.eex
 <button class="<%= class_for_type @attrs.type %>">
   <%= @content %>
 </button>
@@ -146,7 +146,7 @@ Phoenix components are defined by two different parts, a view and a template.
 The view contains helper functions and the template contains the HTML.
 
 To create a button component you need to create the view file
-`web/components/button/view.ex` with the following content
+`lib/myapp_web/components/button/view.ex` with the following content
 
 ```ex
 defmodule MyAppWeb.Components.Button do
