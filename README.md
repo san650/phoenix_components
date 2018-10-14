@@ -123,7 +123,7 @@ def component do
 end
 ```
 
-### 3. Enabling phoenix live reload for components
+### 2. Enabling phoenix live reload for components
 
 Add components pattern (`~r{lib/myapp_web/components/*/.*(eex)$}`) to your live_reload config.
 
@@ -140,7 +140,7 @@ config :myapp, MyAppWeb.Endpoint,
   ]
 ```
 
-### 4. Creating a `button` component
+### 3. Creating a `button` component
 
 Phoenix components are defined by two different parts, a view and a template.
 The view contains helper functions and the template contains the HTML.
@@ -170,7 +170,7 @@ following content
 Note that `@content` variable will contain the content defined inside the button
 block. Next section shows this in more detail.
 
-### 5. Using the component
+### 4. Using the component
 
 You can use the component from any template by using the helper function
 `component`.
@@ -187,7 +187,7 @@ component.
 The content inside the component block is passed to the component as the
 `@content` variable.
 
-### 6. Importing components into views
+### 5. Importing components into views
 
 You can import the components in any view by using the `import_components`
 function. This allows you to avoid having to call `component` helper and instead
@@ -208,7 +208,7 @@ Then you can use these helpers from your templates
 <% end %>
 ```
 
-### 7. Using attributes inside your components
+### 6. Using attributes inside your components
 
 When calling a component you can pass any attribute you like.
 
