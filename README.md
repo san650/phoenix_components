@@ -101,13 +101,16 @@ After installing the dependency you need to configure your application.
 
 You can do this by adding this line to your `lib/myapp_web.ex` file
 
-Look for the line `def view do` and update it to include this line
+Look for the line `def view do` and update it to include the following:
 
 ```ex
 def view do
   quote do
     use Phoenix.View, root: "lib/myapp_web/components"
-    use PhoenixComponents.View, namespace: MyAppWeb.Components # Add this line
+                      namespace: MyAppWeb
+                      
+    # add this line
+    use PhoenixComponents.View, namespace: MyAppWeb.Components
     ...
 end
 
