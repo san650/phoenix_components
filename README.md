@@ -19,7 +19,7 @@ react/ember/web components do.
 You can generate a new component with the built-in generator
 
 ```
-$ mix phoenix.gen.component button
+$ mix phx.gen.component Button
 * creating lib/myapp_web/components/button/view.ex
 * creating lib/myapp_web/components/button/template.html.eex
 * creating test/myapp_web/components/button_test.exs

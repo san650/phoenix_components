@@ -31,14 +31,16 @@ defmodule Mix.Tasks.Phx.Gen.Component do
     [component_name] = validate_args!(args)
     context_app = Mix.Phoenix.context_app()
     web_prefix = Mix.Phoenix.web_path(context_app)
+    test_prefix = Mix.Phoenix.web_test_path(context_app)
     binding = Mix.Phoenix.inflect(component_name)
     binding = Keyword.put(binding, :module, "#{binding[:web_module]}.Components.#{binding[:scoped]}")
 
     Mix.Phoenix.check_module_name_availability!(binding[:module])
 
     Mix.Phoenix.copy_from paths(), "priv/templates/phx.gen.component", binding, [
-      {:eex, "component.ex",       Path.join(web_prefix, "components/#{binding[:path]}/view.ex")},
-      {:eex, "template.html.eex",  Path.join(web_prefix, "components/#{binding[:path]}/template.html.eex")},
+      {:eex, "view.ex",            Path.join([web_prefix, "components", binding[:path], "view.ex"])},
+      {:eex, "template.html.eex",  Path.join([web_prefix, "components", binding[:path], "template.html.eex"])},
+      {:eex, "component_test.exs", Path.join([test_prefix, "components", "#{binding[:path]}_test.exs"])},
     ]
 
   end
