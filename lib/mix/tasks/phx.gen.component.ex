@@ -63,6 +63,6 @@ defmodule Mix.Tasks.Phx.Gen.Component do
   end
 
   defp paths do
-    [".", :phoenix]
+    [".", :phoenix_components]
   end
 end
