@@ -86,7 +86,7 @@ defmodule MyApp.Component do
     quote do
       use PhoenixComponents.Component,
         root: "lib/myapp_web",
-        module_base: MyApp
+        app_module: MyApp
     end
   end
 end
@@ -122,7 +122,7 @@ Look for the line `def view do` and update it to include this line
 def view do
   quote do
     use Phoenix.View, root: "web/templates"
-    use PhoenixComponents.View # Add this line
+    use PhoenixComponents.View, app_module: MyApp # Add this line
     ...
 ```
 

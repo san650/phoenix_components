@@ -21,60 +21,62 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
 
     case argv do
       [] ->
-        Mix.raise "Expected module name to be given, please use \"mix phx.component my_component\""
-      [name | _] ->
-        generate(component_name: name)
+        Mix.raise(
+          "Expected module name to be given, please use \"mix phx.component lib/my_app_web MyApp my_component\""
+        )
+
+      [base_path, module_base, name | _] ->
+        generate(base_path: base_path, module_base: module_base, component_name: name)
     end
   end
 
-  defp generate(component_name: name) do
-    config_path = Application.get_env(:phoenix_components, :path, "web")
-
-    path = Path.join([config_path, "components", name])
+  defp generate(path: base_path, module_base: module_base, component_name: name) do
+    path = Path.join([base_path, "components", name])
 
     [module_base] =
-      :phoenix_components
-      |> Application.fetch_env!(:app_name)
-      |> Module.split
+      module_base
+      |> Module.split()
 
     assigns = %{
       name: name,
       module_name: to_pascal_case(name),
-      module_base: module_base,
+      module_base: module_base
     }
 
     # Creates component
     File.mkdir_p!(path)
-    create_file Path.join(path, "view.ex"), view_template(assigns)
-    create_file Path.join(path, "template.html.eex"), template_text()
+    create_file(Path.join(path, "view.ex"), view_template(assigns))
+    create_file(Path.join(path, "template.html.eex"), template_text())
 
     # Creates test
     test_path =
-      config_path
-      |> String.replace_prefix("lib", "test") # Phoenix >= 1.3
-      |> String.replace_prefix("web", "test") # Phoenix < 1.3
+      base_path
+      # Phoenix >= 1.3
+      |> String.replace_prefix("lib", "test")
+      # Phoenix < 1.3
+      |> String.replace_prefix("web", "test")
       |> Kernel.<>("/components")
 
     File.mkdir_p!(test_path)
-    create_file Path.join(test_path, "#{name}_test.exs"), test_template(assigns)
+    create_file(Path.join(test_path, "#{name}_test.exs"), test_template(assigns))
   end
 
-  embed_template :view, """
+  embed_template(:view, """
   defmodule <%= @module_base %>.Components.<%= @module_name %> do
-    use PhoenixComponents.Component
+    use <%= @module_base %>.Component
   end
-  """
+  """)
 
-  embed_text :template, """
+  embed_text(:template, """
   <p><%= @content %></p>
-  """
+  """)
 
-  embed_template :test, """
+  embed_template(:test, """
   defmodule <%= @module_base %>.Components.<%= @module_name %>Test do
     use ExUnit.Case
 
     test "renders block" do
-      html = PhoenixComponents.View.component :<%= @name %> do
+      html = PhoenixComponents.View.component <%= @module_base %>, :<%= @name %> do
         "Hello, World!"
       end
 
@@ -87,5 +89,5 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
       |> String.trim
     end
   end
-  """
+  """)
 end

@@ -35,12 +35,12 @@ defmodule PhoenixComponents.Component do
   """
   defmacro __using__(opts) do
     root = Keyword.get(opts, :root)
-    module_base = Keyword.get(opts, :module_base)
+    app_module = Keyword.get(opts, :app_module)
 
     quote do
       use Phoenix.View, root: unquote(root)
       use Phoenix.HTML
-      use PhoenixComponents.View, module_base: unquote(module_base)
+      use PhoenixComponents.View, app_module: unquote(app_module)
     end
   end
 end

@@ -59,8 +59,8 @@ defmodule PhoenixComponents.View do
 
         <%= component :button %>
   """
-  def component(module_base, name) do
-    do_component(module_base, name, "", [])
+  def component(app_module, name) do
+    do_component(app_module, name, "", [])
   end
 
   @doc """
@@ -72,8 +72,8 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(module_base, name, do: block) do
-    do_component(module_base, name, block, [])
+  def component(app_module, name, do: block) do
+    do_component(app_module, name, block, [])
   end
 
   @doc """
@@ -85,8 +85,8 @@ defmodule PhoenixComponents.View do
 
         <%= component :button, color: "red", size: "small", label: "Submit" %>
   """
-  def component(module_base, name, attrs) when is_list(attrs) do
-    do_component(module_base, name, "", attrs)
+  def component(app_module, name, attrs) when is_list(attrs) do
+    do_component(app_module, name, "", attrs)
   end
 
   @doc """
@@ -100,22 +100,22 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(module_base, name, attrs, do: block) when is_list(attrs) do
-    do_component(module_base, name, block, attrs)
+  def component(app_module, name, attrs, do: block) when is_list(attrs) do
+    do_component(app_module, name, block, attrs)
   end
 
-  defp do_component(module_base, name, content, attrs) do
+  defp do_component(app_module, name, content, attrs) do
     safe_content = html_escape(content)
 
     name
     |> to_pascal_case
     |> prefix_module(Components)
-    |> prefix_module(module_base)
+    |> prefix_module(app_module)
     |> render("template.html", attrs: Enum.into(attrs, %{}), content: safe_content)
   end
 
-  defp prefix_module(atom, module_base) do
-    Module.concat(module_base, atom)
+  defp prefix_module(atom, app_module) do
+    Module.concat(app_module, atom)
   end
 
   @doc """
@@ -132,32 +132,32 @@ defmodule PhoenixComponents.View do
         <%= button type: "submit" %>
   """
   defmacro import_components(components, opts \\ []) do
-    module_base = Keyword.get(opts, :from)
+    app_module = Keyword.get(opts, :from)
 
     for name <- components do
-      if module_base do
+      if app_module do
         quote do
-          def unquote(name)(), do: component(unquote(module_base), unquote(name))
-          def unquote(name)(attrs), do: component(unquote(module_base), unquote(name), attrs)
+          def unquote(name)(), do: component(unquote(app_module), unquote(name))
+          def unquote(name)(attrs), do: component(unquote(app_module), unquote(name), attrs)
 
           def unquote(name)(attrs, block),
-            do: component(unquote(module_base), unquote(name), attrs, block)
+            do: component(unquote(app_module), unquote(name), attrs, block)
         end
       else
         quote do
-          def unquote(name)(), do: component(@module_base, unquote(name))
-          def unquote(name)(attrs), do: component(@module_base, unquote(name), attrs)
+          def unquote(name)(), do: component(@app_module, unquote(name))
+          def unquote(name)(attrs), do: component(@app_module, unquote(name), attrs)
 
           def unquote(name)(attrs, block),
-            do: component(@module_base, unquote(name), attrs, block)
+            do: component(@app_module, unquote(name), attrs, block)
         end
       end
     end
   end
 
-  defmacro __using__(module_base: module_base) do
+  defmacro __using__(app_module: app_module) do
     quote do
-      @module_base unquote(module_base)
+      @app_module unquote(app_module)
       import PhoenixComponents.View
     end
   end
