@@ -125,7 +125,7 @@ end
 
 ### 3. Enabling phoenix live reload for components
 
-Add `~r{lib/myapp_web/components/*/.*(eex)$}` to your dev live_reload config.
+Add components pattern (`~r{lib/myapp_web/components/*/.*(eex)$}`) to your live_reload config.
 
 ```ex
 config :myapp, MyAppWeb.Endpoint,
