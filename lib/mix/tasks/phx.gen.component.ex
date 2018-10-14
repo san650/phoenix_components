@@ -1,88 +1,66 @@
 defmodule Mix.Tasks.Phx.Gen.Component do
+  @shortdoc "Generates a Phoenix component"
+
+  @moduledoc """
+  Generates a Phoenix component.
+
+      mix phx.gen.component Button
+
+  Accepts the module name for the component
+
+  The generated files will contain:
+
+  For a regular application:
+
+    * a component in `lib/my_app_web/components`
+    * a component test in `test/my_app_web/components`
+
+  For an umbrella application:
+
+    * a component in `apps/my_app_web/lib/app_name_web/components`
+    * a component test in `apps/my_app_web/test/my_app_web/components`
+
+  """
   use Mix.Task
 
-  import Mix.Generator
-  import PhoenixComponents.Helpers, only: [to_pascal_case: 1]
-
-  @shortdoc "Creates a new Phoenix component"
-  @moduledoc """
-  Creates a new Phoenix component.
-  It expects the name of the component as argument.
-
-      mix phoenix.component my_button
-
-  A component at web/components/my_button path will be created.
-  """
-
-  @switches []
-
-  def run(argv) do
-    {_, argv} = OptionParser.parse!(argv, strict: @switches)
-
-    case argv do
-      [] ->
-        Mix.raise(
-          "Expected module name to be given, please use \"mix phx.component lib/my_app_web MyApp my_component\""
-        )
-
-      [root, namespace, name | _] ->
-        generate(root, namespace, name)
+  @doc false
+  def run(args) do
+    if Mix.Project.umbrella?() do
+      Mix.raise "mix phx.gen.component can only be run inside an application directory"
     end
+    [component_name] = validate_args!(args)
+    context_app = Mix.Phoenix.context_app()
+    web_prefix = Mix.Phoenix.web_path(context_app)
+    binding = Mix.Phoenix.inflect(component_name)
+    binding = Keyword.put(binding, :module, "#{binding[:web_module]}.Components.#{binding[:scoped]}")
+
+    Mix.Phoenix.check_module_name_availability!(binding[:module])
+
+    Mix.Phoenix.copy_from paths(), "priv/templates/phx.gen.component", binding, [
+      {:eex, "component.ex",       Path.join(web_prefix, "components/#{binding[:path]}/view.ex")},
+      {:eex, "template.html.eex",  Path.join(web_prefix, "components/#{binding[:path]}/template.html.eex")},
+    ]
+
   end
 
-  defp generate(root, namespace, name) do
-    path = Path.join([root, name])
+  @spec raise_with_help() :: no_return()
+  defp raise_with_help do
+    Mix.raise """
+    mix phx.gen.component expects just the module name:
 
-    assigns = %{
-      name: name,
-      module_name: to_pascal_case(name),
-      namespace: namespace
-    }
+        mix phx.gen.component Button
 
-    # Creates component
-    File.mkdir_p!(path)
-    create_file(Path.join(path, "view.ex"), view_template(assigns))
-    create_file(Path.join(path, "template.html.eex"), template_text())
-
-    # Creates test
-    test_path =
-      root
-      # Phoenix >= 1.3
-      |> String.replace_prefix("lib", "test")
-      # Phoenix < 1.3
-      |> String.replace_prefix("web", "test")
-
-    File.mkdir_p!(test_path)
-    create_file(Path.join(test_path, "#{name}_test.exs"), test_template(assigns))
+    """
   end
 
-  embed_template(:view, """
-  defmodule <%= @namespace %>.<%= @module_name %> do
-    use <%= @namespace %>.Component
-  end
-  """)
-
-  embed_text(:template, """
-  <p><%= @content %></p>
-  """)
-
-  embed_template(:test, """
-  defmodule <%= @namespace %>.<%= @module_name %>Test do
-    use ExUnit.Case
-
-    test "renders block" do
-      html = PhoenixComponents.View.component <%= @namespace %>, :<%= @name %> do
-        "Hello, World!"
-      end
-
-      assert raw(html) == "<p>Hello, World!</p>"
+  defp validate_args!(args) do
+    unless length(args) == 1 do
+      raise_with_help()
     end
-
-    def raw({:safe, html}) do
-      html
-      |> to_string
-      |> String.trim
-    end
+    args
   end
-  """)
+
+  defp paths do
+    [".", :phoenix]
+  end
 end
