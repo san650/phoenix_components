@@ -59,8 +59,8 @@ defmodule PhoenixComponents.View do
 
         <%= component :button %>
   """
-  def component(name) do
-    do_component(name, "", [])
+  def component(module_base, name) do
+    do_component(module_base, name, "", [])
   end
 
   @doc """
@@ -72,8 +72,8 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(name, [do: block]) do
-    do_component(name, block, [])
+  def component(module_base, name, do: block) do
+    do_component(module_base, name, block, [])
   end
 
   @doc """
@@ -85,8 +85,8 @@ defmodule PhoenixComponents.View do
 
         <%= component :button, color: "red", size: "small", label: "Submit" %>
   """
-  def component(name, attrs) when is_list(attrs) do
-    do_component(name, "", attrs)
+  def component(module_base, name, attrs) when is_list(attrs) do
+    do_component(module_base, name, "", attrs)
   end
 
   @doc """
@@ -100,23 +100,22 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(name, attrs, [do: block]) when is_list(attrs) do
-    do_component(name, block, attrs)
+  def component(module_base, name, attrs, do: block) when is_list(attrs) do
+    do_component(module_base, name, block, attrs)
   end
 
-  defp do_component(name, content, attrs) do
+  defp do_component(module_base, name, content, attrs) do
     safe_content = html_escape(content)
-    app_module = Application.fetch_env!(:phoenix_components, :app_name)
 
     name
     |> to_pascal_case
     |> prefix_module(Components)
-    |> prefix_module(app_module)
+    |> prefix_module(module_base)
     |> render("template.html", attrs: Enum.into(attrs, %{}), content: safe_content)
   end
 
-  defp prefix_module(atom, base_module) do
-    Module.concat(base_module, atom)
+  defp prefix_module(atom, module_base) do
+    Module.concat(module_base, atom)
   end
 
   @doc """
@@ -126,24 +125,39 @@ defmodule PhoenixComponents.View do
 
         import_components [:button, :jumbotron]
 
+        import_components [:button, :jumbotron], from: SomeOtherModule
+
     Then you can use the component directly
 
         <%= button type: "submit" %>
   """
-  defmacro import_components(components) do
+  defmacro import_components(components, opts \\ []) do
+    module_base = Keyword.get(opts, :from)
+
     for name <- components do
-      quote do
-        def unquote(name)(), do: component(unquote(name))
+      if module_base do
+        quote do
+          def unquote(name)(), do: component(unquote(module_base), unquote(name))
+          def unquote(name)(attrs), do: component(unquote(module_base), unquote(name), attrs)
 
-        def unquote(name)(attrs), do: component(unquote(name), attrs)
+          def unquote(name)(attrs, block),
+            do: component(unquote(module_base), unquote(name), attrs, block)
+        end
+      else
+        quote do
+          def unquote(name)(), do: component(@module_base, unquote(name))
+          def unquote(name)(attrs), do: component(@module_base, unquote(name), attrs)
 
-        def unquote(name)(attrs, block), do: component(unquote(name), attrs, block)
+          def unquote(name)(attrs, block),
+            do: component(@module_base, unquote(name), attrs, block)
+        end
       end
     end
   end
 
-  defmacro __using__(_) do
+  defmacro __using__(module_base: module_base) do
     quote do
+      @module_base unquote(module_base)
       import PhoenixComponents.View
     end
   end

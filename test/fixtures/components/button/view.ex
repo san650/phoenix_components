@@ -2,5 +2,5 @@ defmodule MyApp.Components.Button do
   @moduledoc """
   Dummy button component
   """
-  use PhoenixComponents.Component
+  use MyApp.Component
 end

@@ -34,6 +34,9 @@ defmodule MyApp.PageView do
   use PhoenixComponents.View
 
   import_components [:button]
+
+  # you can also import from specific module, like external dependencies
+  import_components [:button], from: MyComponentLibrary
 end
 ```
 

@@ -28,21 +28,19 @@ defmodule PhoenixComponents.Component do
         <%= @content %>
       </button>
 
-  You can configure the base folder for your components in your config file.
-
-  E.g. `config/config.ex`
-
-      config :phoenix_components, path: "lib/web/components"
   """
 
   @doc """
   When used, defines the current module as a Component View module.
   """
-  defmacro __using__(_opts) do
+  defmacro __using__(opts) do
+    root = Keyword.get(opts, :root)
+    module_base = Keyword.get(opts, :module_base)
+
     quote do
-      use Phoenix.View, root: Application.get_env(:phoenix_components, :path, "web")
+      use Phoenix.View, root: unquote(root)
       use Phoenix.HTML
-      use PhoenixComponents.View
+      use PhoenixComponents.View, module_base: unquote(module_base)
     end
   end
 end
