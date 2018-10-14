@@ -26,7 +26,7 @@ defmodule Mix.Tasks.Phx.Gen.Component do
         )
 
       [root, namespace, name | _] ->
-        generate(root, namespace |> String.to_atom(), name)
+        generate(root, namespace, name)
     end
   end
 
