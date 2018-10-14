@@ -26,16 +26,12 @@ defmodule Mix.Tasks.Phx.Gen.Component do
         )
 
       [root, namespace, name | _] ->
-        generate(root, namespace, name)
+        generate(root, namespace |> String.to_atom(), name)
     end
   end
 
   defp generate(root, namespace, name) do
     path = Path.join([root, name])
-
-    [namespace] =
-      namespace
-      |> Module.split()
 
     assigns = %{
       name: name,
