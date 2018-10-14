@@ -2,7 +2,7 @@ defmodule <%= @module %>Test do
   use ExUnit.Case
 
   test "renders block" do
-    html = PhoenixComponents.View.component <%= @web_module %>.Components, :<%= @name %> do
+    html = PhoenixComponents.View.component <%= @web_module %>.Components, :<%= @singular %> do
       "Hello, World!"
     end
 
