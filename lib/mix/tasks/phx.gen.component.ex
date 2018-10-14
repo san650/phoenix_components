@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Phoenix.Gen.Component do
+defmodule Mix.Tasks.Phx.Gen.Component do
   use Mix.Task
 
   import Mix.Generator
