@@ -7,11 +7,11 @@ defmodule PhoenixComponents.Mixfile do
       build_embedded: Mix.env == :prod,
       deps: deps(),
       description: description(),
-      elixir: "~> 1.4",
+      elixir: "~> 1.7",
       package: package(),
       source_url: "https://github.com/san650/phoenix_components",
       start_permanent: Mix.env == :prod,
-      version: "1.0.3",
+      version: "2.0.0",
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
     ]
@@ -36,12 +36,12 @@ defmodule PhoenixComponents.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:credo, "~> 0.3", only: [:dev, :test]},
-      {:ex_doc, ">= 0.0.0", only: :dev},
+      {:credo, "~> 0.9", only: [:dev, :test], runtime: false},
+      {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.7", only: :test},
       {:floki, ">= 0.17.2", only: :test},
-      {:phoenix, ">= 1.2.1"},
-      {:phoenix_html, "~> 2.6"},
+      {:phoenix, github: "phoenixframework/phoenix"},
+      {:phoenix_html, "~> 2.11"},
     ]
   end
 
