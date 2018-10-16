@@ -9,16 +9,16 @@ defmodule PhoenixComponents.View do
 
   When working on a project with several components you can use this module in your `web/web.ex` definition.
 
-      defmodule MyAppWeb do
+      defmodule AppWeb do
 
         #...
 
         def view do
           quote do
-            use Phoenix.View, root: "lib/myapp_web/templates"
-                              namespace: MyAppWeb
+            use Phoenix.View, root: "lib/app_web/templates"
+                              namespace: AppWeb
 
-            use PhoenixComponents.View, namespace: MyAppWeb.Components
+            use PhoenixComponents.View, namespace: AppWeb.Components
 
             # ...
           end
@@ -27,8 +27,8 @@ defmodule PhoenixComponents.View do
 
   After you include the module you can use the following helpers
 
-      defmodule MyAppWeb.UserView do
-        use MyAppWeb, :view
+      defmodule AppWeb.UserView do
+        use AppWeb, :view
 
         import_component [:button, :jumbotron]
       end
