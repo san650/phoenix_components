@@ -12,13 +12,13 @@ defmodule Mix.Tasks.Phx.Gen.Component do
 
   For a regular application:
 
-    * a component in `lib/my_app_web/components`
-    * a component test in `test/my_app_web/components`
+    * a component in `lib/app_web/components`
+    * a component test in `test/app_web/components`
 
   For an umbrella application:
 
-    * a component in `apps/my_app_web/lib/app_name_web/components`
-    * a component test in `apps/my_app_web/test/my_app_web/components`
+    * a component in `apps/app_web/lib/app_name_web/components`
+    * a component test in `apps/app_web/test/app_web/components`
 
   """
   use Mix.Task

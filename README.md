@@ -29,8 +29,8 @@ Then you can use the new component in a template
 
 ```ex
 # lib/app_web/views/page_view.ex
-defmodule MyApp.PageView do
-  use MyApp.Web, :view
+defmodule AppWeb.PageView do
+  use AppWeb, :view
   use PhoenixComponents.View, namespace: AppWeb.Components
 
   import_components [:button]
@@ -52,7 +52,7 @@ With the corresponding component definition
 
 ```ex
 # lib/app_web/components/button/view.ex
-defmodule MyApp.Components.Button do
+defmodule AppWeb.Components.Button do
   use PhoenixComponents.Component, namespace: AppWeb.Components,
                                    root: "lib/app_web/components"
 
@@ -128,7 +128,7 @@ end
 Add components pattern to your live_reload config.
 
 ```ex
-config :myapp, AppWeb.Endpoint,
+config :app, AppWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},

@@ -8,9 +8,9 @@ defmodule PhoenixComponents.Component do
 
   ## Example
 
-  PhoenixComponents defines the view template at `lib/myapp_web/components/` by default.
+  PhoenixComponents defines the view template at `lib/app_web/components/` by default.
 
-  E.g. `lib/myapp_web/components/awesome_button/view.eex`
+  E.g. `lib/app_web/components/awesome_button/view.eex`
 
       defmodule YourApp.Components.AwesomeButton do
         use PhoenixComponents.Component
@@ -22,7 +22,7 @@ defmodule PhoenixComponents.Component do
 
   This in combination with a template defines a component.
 
-  E.g. `lib/myapp_web/components/awesome_button/template.html.eex`
+  E.g. `lib/app_web/components/awesome_button/template.html.eex`
 
       <button class="<%= class_for_type @attr.type %>">
         <%= @content %>
