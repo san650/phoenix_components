@@ -31,7 +31,7 @@ Then you can use the new component in a template
 # lib/app_web/views/page_view.ex
 defmodule MyApp.PageView do
   use MyApp.Web, :view
-  use PhoenixComponents.View, namespace: MyAppWeb.Components
+  use PhoenixComponents.View, namespace: AppWeb.Components
 
   import_components [:button]
 
@@ -53,7 +53,7 @@ With the corresponding component definition
 ```ex
 # lib/app_web/components/button/view.ex
 defmodule MyApp.Components.Button do
-  use PhoenixComponents.Component, namespace: MyAppWeb.Components,
+  use PhoenixComponents.Component, namespace: AppWeb.Components,
                                    root: "lib/app_web/components"
 
   def class_for_type(type) do
@@ -107,17 +107,17 @@ Look for the line `def view do` and update it to include the following:
 def view do
   quote do
     use Phoenix.View, root: "lib/app_web/components"
-                      namespace: MyAppWeb
-                      
+                      namespace: AppWeb
+
     # add this line
-    use PhoenixComponents.View, namespace: MyAppWeb.Components
-    ...
+    use PhoenixComponents.View, namespace: AppWeb.Components
+    ..
 end
 
-# add this helper for components, usage example: `use MyAppWeb, :component`
+# add this helper for components, usage example: `use AppWeb, :component`
 def component do
   quote do
-    use PhoenixComponents.Component, namespace: MyAppWeb.Components,
+    use PhoenixComponents.Component, namespace: AppWeb.Components,
                                      root: "lib/app_web/components"
   end
 end
@@ -128,7 +128,7 @@ end
 Add components pattern to your live_reload config.
 
 ```ex
-config :myapp, MyAppWeb.Endpoint,
+config :myapp, AppWeb.Endpoint,
   live_reload: [
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
@@ -149,8 +149,8 @@ To create a button component you need to create the view file
 `lib/app_web/components/button/view.ex` with the following content
 
 ```ex
-defmodule MyAppWeb.Components.Button do
-  use MyAppWeb, :component
+defmodule AppWeb.Components.Button do
+  use AppWeb, :component
 
   def classes do
     "btn btn-default"
@@ -194,7 +194,7 @@ function. This allows you to avoid having to call `component` helper and instead
 just use the name of the component.
 
 ```eex
-defmodule MyAppWeb.PageView do
+defmodule AppWeb.PageView do
   use Phoenix.Web, :view
   import_components [:button, :jumbotron]
 end
