@@ -20,15 +20,15 @@ You can generate a new component with the built-in generator
 
 ```
 $ mix phx.gen.component Button
-* creating lib/myapp_web/components/button/view.ex
-* creating lib/myapp_web/components/button/template.html.eex
-* creating test/myapp_web/components/button_test.exs
+* creating lib/app_web/components/button/view.ex
+* creating lib/app_web/components/button/template.html.eex
+* creating test/app_web/components/button_test.exs
 ```
 
 Then you can use the new component in a template
 
 ```ex
-# lib/myapp_web/views/page_view.ex
+# lib/app_web/views/page_view.ex
 defmodule MyApp.PageView do
   use MyApp.Web, :view
   use PhoenixComponents.View, namespace: MyAppWeb.Components
@@ -41,7 +41,7 @@ end
 ```
 
 ```eex
-# lib/myapp_web/templates/page/show.html.eex
+# lib/app_web/templates/page/show.html.eex
 
 <%= button type: :primary do %>
   My cool button!
@@ -51,10 +51,10 @@ end
 With the corresponding component definition
 
 ```ex
-# lib/myapp_web/components/button/view.ex
+# lib/app_web/components/button/view.ex
 defmodule MyApp.Components.Button do
   use PhoenixComponents.Component, namespace: MyAppWeb.Components,
-                                   root: "lib/myapp_web/components"
+                                   root: "lib/app_web/components"
 
   def class_for_type(type) do
     "btn btn--" <> to_string(type)
@@ -63,7 +63,7 @@ end
 ```
 
 ```eex
-# lib/myapp_web/components/button/template.html.eex
+# lib/app_web/components/button/template.html.eex
 <button class="<%= class_for_type @attrs.type %>">
   <%= @content %>
 </button>
@@ -99,14 +99,14 @@ application.
 
 After installing the dependency you need to configure your application.
 
-You can do this by adding this line to your `lib/myapp_web.ex` file
+You can do this by adding this line to your `lib/app_web.ex` file
 
 Look for the line `def view do` and update it to include the following:
 
 ```ex
 def view do
   quote do
-    use Phoenix.View, root: "lib/myapp_web/components"
+    use Phoenix.View, root: "lib/app_web/components"
                       namespace: MyAppWeb
                       
     # add this line
@@ -118,14 +118,14 @@ end
 def component do
   quote do
     use PhoenixComponents.Component, namespace: MyAppWeb.Components,
-                                     root: "lib/myapp_web/components"
+                                     root: "lib/app_web/components"
   end
 end
 ```
 
 ### 2. Enabling phoenix live reload for components
 
-Add components pattern (`~r{lib/myapp_web/components/*/.*(eex)$}`) to your live_reload config.
+Add components pattern to your live_reload config.
 
 ```ex
 config :myapp, MyAppWeb.Endpoint,
@@ -133,9 +133,9 @@ config :myapp, MyAppWeb.Endpoint,
     patterns: [
       ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
-      ~r{lib/myapp_web/views/.*(ex)$},
-      ~r{lib/myapp_web/templates/.*(eex)$},
-      ~r{lib/myapp_web/components/*/.*(eex)$} # add this line
+      ~r{lib/app_web/views/.*(ex)$},
+      ~r{lib/app_web/templates/.*(eex)$},
+      ~r{lib/app_web/components/*/.*(eex)$} # add this line
     ]
   ]
 ```
@@ -146,7 +146,7 @@ Phoenix components are defined by two different parts, a view and a template.
 The view contains helper functions and the template contains the HTML.
 
 To create a button component you need to create the view file
-`lib/myapp_web/components/button/view.ex` with the following content
+`lib/app_web/components/button/view.ex` with the following content
 
 ```ex
 defmodule MyAppWeb.Components.Button do
@@ -158,8 +158,8 @@ defmodule MyAppWeb.Components.Button do
 end
 ```
 
-Then create the template file `lib/myapp_web/components/button/template.html.eex` with the
-following content
+Then create the template file `lib/app_web/components/button/template.html.eex`
+with the following content
 
 ```eex
 <button class="<%= classes %>">

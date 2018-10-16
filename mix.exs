@@ -7,7 +7,7 @@ defmodule PhoenixComponents.Mixfile do
       build_embedded: Mix.env == :prod,
       deps: deps(),
       description: description(),
-      elixir: "~> 1.7",
+      elixir: "~> 1.4",
       package: package(),
       source_url: "https://github.com/san650/phoenix_components",
       start_permanent: Mix.env == :prod,
