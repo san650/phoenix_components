@@ -36,12 +36,12 @@ defmodule PhoenixComponents.Mixfile do
   # Type "mix help deps" for more examples and options
   defp deps do
     [
-      {:credo, "~> 0.9", only: [:dev, :test], runtime: false},
+      {:credo, "~> 0.10", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.19", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.7", only: :test},
-      {:floki, ">= 0.17.2", only: :test},
-      {:phoenix, github: "phoenixframework/phoenix"},
-      {:phoenix_html, "~> 2.11"},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:floki, "~> 0.20", only: :test},
+      {:phoenix, "~> 1.4"},
+      {:phoenix_html, "~> 2.12"},
     ]
   end
 
