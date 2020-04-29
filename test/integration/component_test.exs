@@ -72,7 +72,9 @@ defmodule PhoenixComponents.Integration.ComponentTest do
     ]}
   end
 
-  def parse({:safe, html}) do
-    Floki.parse(html)
+  def parse(html) do
+    html
+    |> Phoenix.HTML.safe_to_string
+    |> Floki.parse
   end
 end

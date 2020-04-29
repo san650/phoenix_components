@@ -61,6 +61,10 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
 
   embed_template :view, """
   defmodule <%= @module_base %>.Components.<%= @module_name %> do
+    @moduledoc """
+    View module for <%= @module_name %> component.
+    \"""
+
     use PhoenixComponents.Component
   end
   """
@@ -71,6 +75,8 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
 
   embed_template :test, """
   defmodule <%= @module_base %>.Components.<%= @module_name %>Test do
+    @moduledoc false
+
     use ExUnit.Case
 
     test "renders block" do
@@ -81,9 +87,9 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
       assert raw(html) == "<p>Hello, World!</p>"
     end
 
-    def raw({:safe, html}) do
+    def raw(html) do
       html
-      |> to_string
+      |> Phoenix.HTML.safe_to_string
       |> String.trim
     end
   end
