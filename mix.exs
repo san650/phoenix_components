@@ -1,6 +1,9 @@
 defmodule PhoenixComponents.Mixfile do
   use Mix.Project
 
+  @version "1.0.3"
+  @github_url "https://github.com/san650/phoenix_components"
+
   def project do
     [
       app: :phoenix_components,
@@ -9,31 +12,24 @@ defmodule PhoenixComponents.Mixfile do
       description: description(),
       elixir: "~> 1.4",
       package: package(),
-      source_url: "https://github.com/san650/phoenix_components",
       start_permanent: Mix.env == :prod,
-      version: "1.0.3",
+      version: @version,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test]
+      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
+
+      # docs
+      source_url: @github_url,
+      docs: [
+        main: "readme",
+        extras: ["README.md"]
+      ]
     ]
   end
 
-  # Configuration for the OTP application
-  #
-  # Type "mix help compile.app" for more information
   def application do
-    # Specify extra applications you'll use from Erlang/Elixir
     [extra_applications: [:logger]]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:my_dep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:my_dep, git: "https://github.com/elixir-lang/my_dep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:credo, "~> 0.3", only: [:dev, :test]},
@@ -53,9 +49,8 @@ defmodule PhoenixComponents.Mixfile do
 
   defp package do
     [
-      files: ["lib", "mix.exs", "README*", "LICENSE*"],
       licenses: ["MIT"],
-      links: %{"GitHub" => "https://github.com/san650/phoenix_components"},
+      links: %{GitHub: @github_url},
       maintainers: ["Santiago Ferreira"],
       name: :phoenix_components,
     ]
