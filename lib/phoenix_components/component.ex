@@ -1,6 +1,6 @@
 defmodule PhoenixComponents.Component do
   @moduledoc """
-  Module used to define the view part of a component.
+  Module used to define the view of a component.
 
   This module is used to define the view associated to a component. It serves
   two different purposes, define from where to load the template of a component
@@ -32,7 +32,7 @@ defmodule PhoenixComponents.Component do
 
   E.g. `config/config.ex`
 
-      config :phoenix_components, path: "lib/web/components"
+      config :phoenix_components, root: "lib/web/components"
   """
 
   @doc """
