@@ -1,4 +1,4 @@
-defmodule Mix.Tasks.Phoenix.Gen.Component do
+defmodule Mix.Tasks.Phx.Gen.Component do
   use Mix.Task
 
   import Mix.Generator
@@ -9,7 +9,7 @@ defmodule Mix.Tasks.Phoenix.Gen.Component do
   Creates a new Phoenix component.
   It expects the name of the component as argument.
 
-      mix phoenix.component my_button
+      mix phx.component my_button
 
   A component at web/components/my_button path will be created.
   """
