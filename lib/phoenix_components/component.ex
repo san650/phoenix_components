@@ -7,8 +7,8 @@ defmodule PhoenixComponents.Component do
   - import the helpers to use inside the component's template.
 
   Every component defined by PhoenixComponents must include two files:
-  - view
-  - template
+  - view - contains helper functions
+  - template - contains the HTML
 
   ## Example
 

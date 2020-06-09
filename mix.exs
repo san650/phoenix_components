@@ -47,7 +47,7 @@ defmodule PhoenixComponents.Mixfile do
 
   defp description do
     """
-    This library helps you write encapsulated bits of HTML into a single unit called component in your server rendered Phoenix web site. Similar to how react/ember/web components do.
+    Provide server-side rendered components for Phoenix.
     """
   end
 
