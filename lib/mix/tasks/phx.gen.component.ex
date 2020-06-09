@@ -34,14 +34,10 @@ defmodule Mix.Tasks.Phx.Gen.Component do
   end
 
   defp generate(component_name: name) do
-    config_path = Application.get_env(:phoenix_components, :path, "web")
+    module_base = Application.fetch_env!(:phoenix_components, :namespace)
+    root_path = Application.fetch_env!(:phoenix_components, :root)
 
-    path = Path.join([config_path, "components", name])
-
-    [module_base] =
-      :phoenix_components
-      |> Application.fetch_env!(:app_name)
-      |> Module.split
+    component_path = Path.join([root_path, "components", name])
 
     assigns = %{
       name: name,
@@ -50,13 +46,13 @@ defmodule Mix.Tasks.Phx.Gen.Component do
     }
 
     # Creates component
-    File.mkdir_p!(path)
-    create_file Path.join(path, "view.ex"), view_template(assigns)
-    create_file Path.join(path, "template.html.eex"), template_text()
+    File.mkdir_p!(component_path)
+    create_file Path.join(component_path, "view.ex"), view_template(assigns)
+    create_file Path.join(component_path, "template.html.eex"), template_text()
 
     # Creates test
     test_path =
-      config_path
+      root_path
       |> String.replace_prefix("lib", "test") # Phoenix >= 1.3
       |> String.replace_prefix("web", "test") # Phoenix < 1.3
       |> Kernel.<>("/components")
