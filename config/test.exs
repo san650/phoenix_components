@@ -1,3 +1,3 @@
 use Mix.Config
 
-config :phoenix_components, path: "test/fixtures", app_name: MyApp
+config :phoenix_components, root: "test/fixtures", namespace: MyApp

@@ -78,7 +78,7 @@ end
 and then you have to add one config to your config file
 
 ```elixir
-config :phoenix_components, app_name: MyApp
+config :phoenix_components, namespace: MyApp
 ```
 
 where `MyApp` is the module that represents your phoenix app.
@@ -208,7 +208,7 @@ You can configure where to put the components by editing your application
 configuration file `config/config.exs`.
 
 ```ex
-config :phoenix_components, path: "lib/foo/bar"
+config :phoenix_components, root: "lib/foo/bar"
 ```
 
 Components are obtained from `web` by default.
