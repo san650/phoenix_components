@@ -7,15 +7,20 @@ defmodule PhoenixComponents.Mixfile do
   def project do
     [
       app: :phoenix_components,
-      build_embedded: Mix.env == :prod,
+      build_embedded: Mix.env() == :prod,
       deps: deps(),
       description: description(),
       elixir: "~> 1.4",
       package: package(),
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       version: @version,
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [coveralls: :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ],
 
       # docs
       source_url: @github_url,
@@ -37,7 +42,7 @@ defmodule PhoenixComponents.Mixfile do
       {:excoveralls, "~> 0.7", only: :test},
       {:floki, ">= 0.17.2", only: :test},
       {:phoenix, ">= 1.2.1"},
-      {:phoenix_html, "~> 2.11"},
+      {:phoenix_html, "~> 2.11"}
     ]
   end
 
@@ -52,7 +57,7 @@ defmodule PhoenixComponents.Mixfile do
       licenses: ["MIT"],
       links: %{GitHub: @github_url},
       maintainers: ["Santiago Ferreira"],
-      name: :phoenix_components,
+      name: :phoenix_components
     ]
   end
 end

@@ -101,7 +101,7 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(name, [do: block]) do
+  def component(name, do: block) do
     do_component(name, block, [])
   end
 
@@ -125,7 +125,7 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(name, attrs, [do: block]) when is_list(attrs) do
+  def component(name, attrs, do: block) when is_list(attrs) do
     do_component(name, block, attrs)
   end
 

@@ -27,6 +27,6 @@ defmodule PhoenixComponents.Helpers do
     name
     |> to_string
     |> camelize
-    |> String.to_atom
+    |> String.to_atom()
   end
 end

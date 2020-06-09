@@ -27,7 +27,10 @@ defmodule Mix.Tasks.Phx.Gen.Component do
 
     case argv do
       [] ->
-        Mix.raise "Expected component name to be given, please use \"mix phx.component my_component\""
+        Mix.raise(
+          "Expected component name to be given, please use \"mix phx.component my_component\""
+        )
+
       [name | _] ->
         generate(component_name: name)
     end
@@ -42,13 +45,13 @@ defmodule Mix.Tasks.Phx.Gen.Component do
     assigns = %{
       name: name,
       module_name: to_pascal_case(name),
-      module_base: module_base,
+      module_base: module_base
     }
 
     # Creates component
     File.mkdir_p!(component_path)
-    create_file Path.join(component_path, "view.ex"), view_template(assigns)
-    create_file Path.join(component_path, "template.html.eex"), template_text()
+    create_file(Path.join(component_path, "view.ex"), view_template(assigns))
+    create_file(Path.join(component_path, "template.html.eex"), template_text())
 
     # Creates test
     test_path =
@@ -57,20 +60,20 @@ defmodule Mix.Tasks.Phx.Gen.Component do
       |> Kernel.<>("/components")
 
     File.mkdir_p!(test_path)
-    create_file Path.join(test_path, "#{name}_test.exs"), test_template(assigns)
+    create_file(Path.join(test_path, "#{name}_test.exs"), test_template(assigns))
   end
 
-  embed_template :view, """
+  embed_template(:view, """
   defmodule <%= @module_base %>.Components.<%= @module_name %> do
     use PhoenixComponents.Component
   end
-  """
+  """)
 
-  embed_text :template, """
+  embed_text(:template, """
   <p><%= @content %></p>
-  """
+  """)
 
-  embed_template :test, """
+  embed_template(:test, """
   defmodule <%= @module_base %>.Components.<%= @module_name %>Test do
     use ExUnit.Case
 
@@ -88,5 +91,5 @@ defmodule Mix.Tasks.Phx.Gen.Component do
       |> String.trim
     end
   end
-  """
+  """)
 end
