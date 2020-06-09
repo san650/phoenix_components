@@ -1,18 +1,22 @@
 defmodule PhoenixComponents.Component do
   @moduledoc """
-  Module used to define the view of a component.
+  Module used to define the view associated to a component.
 
-  This module is used to define the view associated to a component. It serves
-  two different purposes, define from where to load the template of a component
-  and import the helpers to use inside the component's template.
+  This  It serves two different purposes:
+  - define from where to load the template of a component.
+  - import the helpers to use inside the component's template.
+
+  Every component defined by PhoenixComponents must include two files:
+  - view
+  - template
 
   ## Example
 
-  PhoenixComponents defines the view template at `web/components/` by default.
+  Following code define a component called `awesome_button`.
 
-  E.g. `web/components/awesome_button/view.eex`
+  The view file - `lib/sample_web/components/awesome_button/view.ex`:
 
-      defmodule YourApp.Components.AwesomeButton do
+      defmodule SampleWeb.Components.AwesomeButton do
         use PhoenixComponents.Component
 
         def class_for_type(type) do
@@ -20,23 +24,15 @@ defmodule PhoenixComponents.Component do
         end
       end
 
-  This in combination with a template defines a component.
-
-  E.g. `web/components/awesome_button/template.html.eex`
+  The template file - `lib/sample_web/components/awesome_button/template.html.eex`:
 
       <button class="<%= class_for_type @attr.type %>">
         <%= @content %>
       </button>
-
-  You can configure the base folder for your components in your config file.
-
-  E.g. `config/config.ex`
-
-      config :phoenix_components, root: "lib/web/components"
   """
 
   @doc """
-  When used, defines the current module as a Component View module.
+  When used, defines current module as a Component View module.
   """
   defmacro __using__(_opts) do
     quote do

@@ -3,19 +3,24 @@ defmodule PhoenixComponents.View do
   This module provides a way to easily generate helper functions to render
   components.
 
-  The module can be included by others Phoenix.View modules to import components easily.
+  The module can be included by others `Phoenix.View` modules to import components
+  easily.
 
-  ## Example
+  ## Basic Usage
 
-  When working on a project with several components you can use this module in your `web/web.ex` definition.
+  Configure PhoenixComponents:
 
-      defmodule MyApp.Web do
+      config :phoenix_components,
+        root: "lib/sample_web",
+        namespace: SampleWeb
 
-        #...
+  Include `PhoenixComponents.View`:
 
+      defmodule SampleWeb do
         def view do
           quote do
-            use Phoenix.View, root: "web/templates"
+            # ...
+
             use PhoenixComponents.View
 
             # ...
@@ -23,15 +28,45 @@ defmodule PhoenixComponents.View do
         end
       end
 
-  After you include the module you can use the following helpers
+  ### Render a component without importing
 
-      defmodule MyApp.UserView do
-        use MyApp.Web, :view
+  Render a component without importing it by using the helper function `component`:
+
+      <div>
+        <%= component :button do %>
+          Submit
+        <% end %>
+      </div>
+
+  ### Render a component with importing
+
+  Import a component to a view:
+
+      defmodule SampleWeb.UserView do
+        use SampleWeb, :view
 
         import_component [:button, :jumbotron]
       end
 
-  After you import a component into the view module you can use the component as follows
+  After importing, you can use the component in your template:
+
+      <div>
+        <%= button do %>
+          Submit
+        <% end %>
+      </div>
+
+  ## Attributes
+
+  The attributes can be accessed in the template as a map `@attrs`.
+
+  Suppose that we define a component `button` with following template:
+
+      <button class="<%= @attr.type %>">
+        <%= @content %>
+      </button>
+
+  Use above component:
 
       <div>
         <%= button type: :primary do %>
@@ -39,13 +74,7 @@ defmodule PhoenixComponents.View do
         <% end %>
       </div>
 
-  Alternatively, you can also render a component without importing it by using the helper function `component`.
-
-      <div>
-        <%= component :button, type: :primary do %>
-          Submit
-        <% end %>
-      </div>
+  For more details, please read `PhoenixComponents.Component`.
   """
 
   import Phoenix.View, only: [render: 3]
@@ -64,7 +93,7 @@ defmodule PhoenixComponents.View do
   end
 
   @doc """
-    Helper to render a component by name and specifying the content in a block.
+    Helper to render a component by name and inner block.
 
     ## Example
 
@@ -79,8 +108,6 @@ defmodule PhoenixComponents.View do
   @doc """
     Helper to render a component by name and a list of attributes.
 
-    Note that attributes are available in the template as the map @attrs.
-
     ## Example
 
         <%= component :button, color: "red", size: "small", label: "Submit" %>
@@ -90,9 +117,7 @@ defmodule PhoenixComponents.View do
   end
 
   @doc """
-    Helper to render a component by name and a list of attributes.
-
-    Note that attributes are available in the template as the map @attrs.
+    Helper to render a component by name, a list of attributes and inner block.
 
     ## Example
 
