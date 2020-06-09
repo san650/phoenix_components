@@ -53,8 +53,7 @@ defmodule Mix.Tasks.Phx.Gen.Component do
     # Creates test
     test_path =
       root_path
-      |> String.replace_prefix("lib", "test") # Phoenix >= 1.3
-      |> String.replace_prefix("web", "test") # Phoenix < 1.3
+      |> String.replace_prefix("lib", "test")
       |> Kernel.<>("/components")
 
     File.mkdir_p!(test_path)
