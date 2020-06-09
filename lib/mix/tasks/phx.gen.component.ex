@@ -7,11 +7,17 @@ defmodule Mix.Tasks.Phx.Gen.Component do
   @shortdoc "Generates a Phoenix component"
   @moduledoc """
   #{@shortdoc}.
-  It expects the name of the component as argument.
 
-      mix phx.component my_button
+  It expects the name of the component as argument:
 
-  A component will be created in your project.
+      mix phx.gen.component my_button
+
+  Then, A component will be created in your project.
+
+  You can also give the component a namespace, such as:
+
+      mix phx.gen.component form/text_input
+
   """
 
   @switches []
