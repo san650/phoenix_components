@@ -4,14 +4,14 @@ defmodule Mix.Tasks.Phx.Gen.Component do
   import Mix.Generator
   import PhoenixComponents.Helpers, only: [to_pascal_case: 1]
 
-  @shortdoc "Creates a new Phoenix component"
+  @shortdoc "Generates a Phoenix component"
   @moduledoc """
-  Creates a new Phoenix component.
+  #{@shortdoc}.
   It expects the name of the component as argument.
 
       mix phx.component my_button
 
-  A component at web/components/my_button path will be created.
+  A component will be created in your project.
   """
 
   @switches []
@@ -21,7 +21,7 @@ defmodule Mix.Tasks.Phx.Gen.Component do
 
     case argv do
       [] ->
-        Mix.raise "Expected module name to be given, please use \"mix phx.component my_component\""
+        Mix.raise "Expected component name to be given, please use \"mix phx.component my_component\""
       [name | _] ->
         generate(component_name: name)
     end
