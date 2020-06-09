@@ -68,7 +68,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
     html = Renderer.component :compound
 
     assert parse(html) == {"button", [], [
-      {"div", [{"class", "jumbotron-red"}], ["\n\n    Hello, World!\n"]}
+      {"div", [{"class", "jumbotron-red"}], ["\n    Hello, World!\n"]}
     ]}
   end
 
