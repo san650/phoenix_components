@@ -73,6 +73,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
   end
 
   def parse({:safe, html}) do
-    Floki.parse(html)
+    [parsed_html] = Floki.parse_document!(html)
+    parsed_html
   end
 end
