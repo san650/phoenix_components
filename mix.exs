@@ -41,7 +41,7 @@ defmodule PhoenixComponents.Mixfile do
       {:excoveralls, "~> 0.7", only: :test},
       {:floki, ">= 0.17.2", only: :test},
       {:phoenix, ">= 1.2.1"},
-      {:phoenix_html, "~> 2.6"},
+      {:phoenix_html, "~> 2.11"},
     ]
   end
 
