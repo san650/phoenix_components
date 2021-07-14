@@ -11,7 +11,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
         "Lorem ipsum"
       end
 
-      assert parse(html) == {"button", [], ["\nLorem ipsum"]}
+      assert parse(html) == {"button", [], ["\nLorem ipsum\n"]}
     end
 
     test "renders a component with attributes" do
@@ -19,7 +19,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
         "Lorem ipsum"
       end
 
-      assert parse(html) == {"div", [{"class", "jumbotron-red"}], ["\nLorem ipsum"]}
+      assert parse(html) == {"div", [{"class", "jumbotron-red"}], ["\nLorem ipsum\n"]}
     end
   end
 
@@ -54,7 +54,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
         "Lorem ipsum"
       end
 
-      assert parse(html) == {"button", [], ["\nLorem ipsum"]}
+      assert parse(html) == {"button", [], ["\nLorem ipsum\n"]}
     end
 
     test "generates component/3 helper" do
@@ -62,7 +62,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
         "Foo bar"
       end
 
-      assert parse(html) == {"div", [{"class", "jumbotron-yellow"}], ["\nFoo bar"]}
+      assert parse(html) == {"div", [{"class", "jumbotron-yellow"}], ["\nFoo bar\n"]}
     end
   end
 
@@ -83,7 +83,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
         "Lorem ipsum"
       end
 
-      assert parse(html) == {"button", [], ["\nLorem ipsum"]}
+      assert parse(html) == {"button", [], ["\nLorem ipsum\n"]}
     end
 
     test "generates component/3 helper using from module" do
@@ -91,7 +91,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
         "Foo bar"
       end
 
-      assert parse(html) == {"div", [{"class", "jumbotron-yellow"}], ["\nFoo bar"]}
+      assert parse(html) == {"div", [{"class", "jumbotron-yellow"}], ["\nFoo bar\n"]}
     end
   end
 
@@ -99,7 +99,7 @@ defmodule PhoenixComponents.Integration.ComponentTest do
     html = Renderer.component @namespace, :compound
 
     assert parse(html) == {"button", [], [
-      {"div", [{"class", "jumbotron-red"}], ["\n\n    Hello, World!\n"]}
+      {"div", [{"class", "jumbotron-red"}], ["\n\n    Hello, World!\n\n"]}
     ]}
   end
 

@@ -105,17 +105,19 @@ defmodule PhoenixComponents.View do
   def component(namespace, name, attrs, do: block) when is_list(attrs) do
     do_component(namespace, name, block, attrs)
   end
-  
+
   def component(namespace, name, %Phoenix.HTML.Form{} = form, field) when is_atom(field) do
-    do_component(namespace, name, "", [form: form, field: field])
+    do_component(namespace, name, "", form: form, field: field)
   end
 
-  def component(namespace, name, %Phoenix.HTML.Form{} = form, field, attrs) when is_list(attrs) and is_atom(field) do
-    do_component(namespace, name, "", Keyword.merge(attrs, [form: form, field: field]))
+  def component(namespace, name, %Phoenix.HTML.Form{} = form, field, attrs)
+      when is_list(attrs) and is_atom(field) do
+    do_component(namespace, name, "", Keyword.merge(attrs, form: form, field: field))
   end
 
-  def component(namespace, name, %Phoenix.HTML.Form{} = form, field, attrs, do: block) when is_list(attrs) and is_atom(field) do
-    do_component(namespace, name, block, Keyword.merge(attrs, [form: form, field: field]))
+  def component(namespace, name, %Phoenix.HTML.Form{} = form, field, attrs, do: block)
+      when is_list(attrs) and is_atom(field) do
+    do_component(namespace, name, block, Keyword.merge(attrs, form: form, field: field))
   end
 
   defp do_component(namespace, name, content, attrs) do
@@ -150,19 +152,24 @@ defmodule PhoenixComponents.View do
     for name <- components do
       if namespace do
         quote do
-          def unquote(name)(), do: component(unquote(namespace), unquote(name))
-          def unquote(name)(attrs), do: component(unquote(namespace), unquote(name), attrs)
+          def unquote(name)(),
+            do: PhoenixComponents.View.component(unquote(namespace), unquote(name))
+
+          def unquote(name)(attrs),
+            do: PhoenixComponents.View.component(unquote(namespace), unquote(name), attrs)
 
           def unquote(name)(attrs, block),
-            do: component(unquote(namespace), unquote(name), attrs, block)
+            do: PhoenixComponents.View.component(unquote(namespace), unquote(name), attrs, block)
         end
       else
         quote do
-          def unquote(name)(), do: component(@namespace, unquote(name))
-          def unquote(name)(attrs), do: component(@namespace, unquote(name), attrs)
+          def unquote(name)(), do: PhoenixComponents.View.component(@namespace, unquote(name))
+
+          def unquote(name)(attrs),
+            do: PhoenixComponents.View.component(@namespace, unquote(name), attrs)
 
           def unquote(name)(attrs, block),
-            do: component(@namespace, unquote(name), attrs, block)
+            do: PhoenixComponents.View.component(@namespace, unquote(name), attrs, block)
         end
       end
     end
