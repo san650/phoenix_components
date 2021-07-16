@@ -8,9 +8,9 @@ defmodule PhoenixComponents.Component do
 
   ## Example
 
-  PhoenixComponents defines the view template at `web/components/` by default.
+  PhoenixComponents defines the view template at `lib/app_web/components/` by default.
 
-  E.g. `web/components/awesome_button/view.eex`
+  E.g. `lib/app_web/components/awesome_button/view.eex`
 
       defmodule YourApp.Components.AwesomeButton do
         use PhoenixComponents.Component
@@ -22,27 +22,25 @@ defmodule PhoenixComponents.Component do
 
   This in combination with a template defines a component.
 
-  E.g. `web/components/awesome_button/template.html.eex`
+  E.g. `lib/app_web/components/awesome_button/template.html.eex`
 
       <button class="<%= class_for_type @attr.type %>">
         <%= @content %>
       </button>
 
-  You can configure the base folder for your components in your config file.
-
-  E.g. `config/config.ex`
-
-      config :phoenix_components, path: "lib/web/components"
   """
 
   @doc """
   When used, defines the current module as a Component View module.
   """
-  defmacro __using__(_opts) do
+  defmacro __using__(opts) do
+    root = Keyword.get(opts, :root)
+    namespace = Keyword.get(opts, :namespace)
+
     quote do
-      use Phoenix.View, root: Application.get_env(:phoenix_components, :path, "web")
+      use Phoenix.View, root: unquote(root), namespace: unquote(namespace)
       use Phoenix.HTML
-      use PhoenixComponents.View
+      use PhoenixComponents.View, namespace: unquote(namespace)
     end
   end
 end

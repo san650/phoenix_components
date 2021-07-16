@@ -2,7 +2,7 @@ defmodule MyApp.Components.Compound do
   @moduledoc """
   Dummy compound component
   """
-  use PhoenixComponents.Component
+  use MyApp.Component
 
-  import_components [:button, :jumbotron]
+  import_components [:button, :jumbotron], from: MyApp.Components
 end

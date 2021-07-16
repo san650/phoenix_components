@@ -19,26 +19,29 @@ react/ember/web components do.
 You can generate a new component with the built-in generator
 
 ```
-$ mix phoenix.gen.component button
-* creating web/components/button/view.ex
-* creating web/components/button/template.html.eex
-* creating test/components/button_test.exs
+$ mix phx.gen.component Button
+* creating lib/app_web/components/button/view.ex
+* creating lib/app_web/components/button/template.html.eex
+* creating test/app_web/components/button_test.exs
 ```
 
 Then you can use the new component in a template
 
 ```ex
-# /web/views/page_view.ex
-defmodule MyApp.PageView do
-  use MyApp.Web, :view
-  use PhoenixComponents.View
+# lib/app_web/views/page_view.ex
+defmodule AppWeb.PageView do
+  use AppWeb, :view
+  use PhoenixComponents.View, namespace: AppWeb.Components
 
   import_components [:button]
+
+  # you can also import from specific module, like external dependencies
+  import_components [:button], from: AwesomeComponentLibrary
 end
 ```
 
 ```eex
-# /web/templates/page/show.html.eex
+# lib/app_web/templates/page/show.html.eex
 
 <%= button type: :primary do %>
   My cool button!
@@ -48,9 +51,10 @@ end
 With the corresponding component definition
 
 ```ex
-# /web/components/button/view.ex
-defmodule MyApp.Components.ButtonView do
-  use PhoenixComponents.Component
+# lib/app_web/components/button/view.ex
+defmodule AppWeb.Components.Button do
+  use PhoenixComponents.Component, namespace: AppWeb.Components,
+                                   root: "lib/app_web/components"
 
   def class_for_type(type) do
     "btn btn--" <> to_string(type)
@@ -59,7 +63,7 @@ end
 ```
 
 ```eex
-# /web/components/button/template.html.eex
+# lib/app_web/components/button/template.html.eex
 <button class="<%= class_for_type @attrs.type %>">
   <%= @content %>
 </button>
@@ -74,14 +78,6 @@ def deps do
   [{:phoenix_components, "~> 1.0.0"}]
 end
 ```
-
-and then you have to add one config to your config file
-
-```elixir
-config :phoenix_components, app_name: MyApp
-```
-
-where `MyApp` is the module that represents your phoenix app.
 
 ### Extra step for Elixir 1.3 and lower
 
@@ -103,29 +99,58 @@ application.
 
 After installing the dependency you need to configure your application.
 
-You can do this by adding this line to your `web/web.ex` file
+You can do this by adding this line to your `lib/app_web.ex` file
 
-Look for the line `def view do` and update it to include this line
+Look for the line `def view do` and update it to include the following:
 
 ```ex
 def view do
   quote do
-    use Phoenix.View, root: "web/templates"
-    use PhoenixComponents.View # Add this line
-    ...
+    use Phoenix.View, root: "lib/app_web/components"
+                      namespace: AppWeb
+
+    # add this line
+    use PhoenixComponents.View, namespace: AppWeb.Components
+    ..
+end
+
+# add this helper for components, usage example: `use AppWeb, :component`
+def component do
+  quote do
+    use PhoenixComponents.Component, namespace: AppWeb.Components,
+                                     root: "lib/app_web/components"
+  end
+end
 ```
 
-### 2. Creating a `button` component
+### 2. Enabling phoenix live reload for components
+
+Add components pattern to your live_reload config.
+
+```ex
+config :app, AppWeb.Endpoint,
+  live_reload: [
+    patterns: [
+      ~r{priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/gettext/.*(po)$},
+      ~r{lib/app_web/views/.*(ex)$},
+      ~r{lib/app_web/templates/.*(eex)$},
+      ~r{lib/app_web/components/*/.*(eex)$} # add this line
+    ]
+  ]
+```
+
+### 3. Creating a `button` component
 
 Phoenix components are defined by two different parts, a view and a template.
 The view contains helper functions and the template contains the HTML.
 
 To create a button component you need to create the view file
-`web/components/button/view.ex` with the following content
+`lib/app_web/components/button/view.ex` with the following content
 
 ```ex
-defmodule MyApp.Components.Button do
-  use PhoenixComponents.Component
+defmodule AppWeb.Components.Button do
+  use AppWeb, :component
 
   def classes do
     "btn btn-default"
@@ -133,8 +158,8 @@ defmodule MyApp.Components.Button do
 end
 ```
 
-Then create the template file `web/components/button/template.html.eex` with the
-following content
+Then create the template file `lib/app_web/components/button/template.html.eex`
+with the following content
 
 ```eex
 <button class="<%= classes %>">
@@ -145,7 +170,7 @@ following content
 Note that `@content` variable will contain the content defined inside the button
 block. Next section shows this in more detail.
 
-### 3. Using the component
+### 4. Using the component
 
 You can use the component from any template by using the helper function
 `component`.
@@ -162,14 +187,14 @@ component.
 The content inside the component block is passed to the component as the
 `@content` variable.
 
-### 4. Importing components into views
+### 5. Importing components into views
 
 You can import the components in any view by using the `import_components`
 function. This allows you to avoid having to call `component` helper and instead
 just use the name of the component.
 
 ```eex
-defmodule MyApp.PageView do
+defmodule AppWeb.PageView do
   use Phoenix.Web, :view
   import_components [:button, :jumbotron]
 end
@@ -183,7 +208,7 @@ Then you can use these helpers from your templates
 <% end %>
 ```
 
-### 5. Using attributes inside your components
+### 6. Using attributes inside your components
 
 When calling a component you can pass any attribute you like.
 
@@ -201,17 +226,6 @@ the `@attrs` map.
   <%= @content %>
 </button>
 ```
-
-## Configuration
-
-You can configure where to put the components by editing your application
-configuration file `config/config.exs`.
-
-```ex
-config :phoenix_components, path: "lib/foo/bar"
-```
-
-Components are obtained from `web` by default.
 
 ## Project's health
 

@@ -9,14 +9,16 @@ defmodule PhoenixComponents.View do
 
   When working on a project with several components you can use this module in your `web/web.ex` definition.
 
-      defmodule MyApp.Web do
+      defmodule AppWeb do
 
         #...
 
         def view do
           quote do
-            use Phoenix.View, root: "web/templates"
-            use PhoenixComponents.View
+            use Phoenix.View, root: "lib/app_web/templates"
+                              namespace: AppWeb
+
+            use PhoenixComponents.View, namespace: AppWeb.Components
 
             # ...
           end
@@ -25,8 +27,8 @@ defmodule PhoenixComponents.View do
 
   After you include the module you can use the following helpers
 
-      defmodule MyApp.UserView do
-        use MyApp.Web, :view
+      defmodule AppWeb.UserView do
+        use AppWeb, :view
 
         import_component [:button, :jumbotron]
       end
@@ -59,8 +61,8 @@ defmodule PhoenixComponents.View do
 
         <%= component :button %>
   """
-  def component(name) do
-    do_component(name, "", [])
+  def component(namespace, name) do
+    do_component(namespace, name, "", [])
   end
 
   @doc """
@@ -72,8 +74,8 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(name, [do: block]) do
-    do_component(name, block, [])
+  def component(namespace, name, do: block) do
+    do_component(namespace, name, block, [])
   end
 
   @doc """
@@ -85,8 +87,8 @@ defmodule PhoenixComponents.View do
 
         <%= component :button, color: "red", size: "small", label: "Submit" %>
   """
-  def component(name, attrs) when is_list(attrs) do
-    do_component(name, "", attrs)
+  def component(namespace, name, attrs) when is_list(attrs) do
+    do_component(namespace, name, "", attrs)
   end
 
   @doc """
@@ -100,23 +102,35 @@ defmodule PhoenixComponents.View do
           Submit
         <% end %>
   """
-  def component(name, attrs, [do: block]) when is_list(attrs) do
-    do_component(name, block, attrs)
+  def component(namespace, name, attrs, do: block) when is_list(attrs) do
+    do_component(namespace, name, block, attrs)
   end
 
-  defp do_component(name, content, attrs) do
+  def component(namespace, name, %Phoenix.HTML.Form{} = form, field) when is_atom(field) do
+    do_component(namespace, name, "", form: form, field: field)
+  end
+
+  def component(namespace, name, %Phoenix.HTML.Form{} = form, field, attrs)
+      when is_list(attrs) and is_atom(field) do
+    do_component(namespace, name, "", Keyword.merge(attrs, form: form, field: field))
+  end
+
+  def component(namespace, name, %Phoenix.HTML.Form{} = form, field, attrs, do: block)
+      when is_list(attrs) and is_atom(field) do
+    do_component(namespace, name, block, Keyword.merge(attrs, form: form, field: field))
+  end
+
+  defp do_component(namespace, name, content, attrs) do
     safe_content = html_escape(content)
-    app_module = Application.fetch_env!(:phoenix_components, :app_name)
 
     name
     |> to_pascal_case
-    |> prefix_module(Components)
-    |> prefix_module(app_module)
+    |> prefix_module(namespace)
     |> render("template.html", attrs: Enum.into(attrs, %{}), content: safe_content)
   end
 
-  defp prefix_module(atom, base_module) do
-    Module.concat(base_module, atom)
+  defp prefix_module(atom, namespace) do
+    Module.concat(namespace, atom)
   end
 
   @doc """
@@ -126,24 +140,44 @@ defmodule PhoenixComponents.View do
 
         import_components [:button, :jumbotron]
 
+        import_components [:button, :jumbotron], from: SomeOtherModule
+
     Then you can use the component directly
 
         <%= button type: "submit" %>
   """
-  defmacro import_components(components) do
+  defmacro import_components(components, opts \\ []) do
+    namespace = Keyword.get(opts, :from)
+
     for name <- components do
-      quote do
-        def unquote(name)(), do: component(unquote(name))
+      if namespace do
+        quote do
+          def unquote(name)(),
+            do: PhoenixComponents.View.component(unquote(namespace), unquote(name))
 
-        def unquote(name)(attrs), do: component(unquote(name), attrs)
+          def unquote(name)(attrs),
+            do: PhoenixComponents.View.component(unquote(namespace), unquote(name), attrs)
 
-        def unquote(name)(attrs, block), do: component(unquote(name), attrs, block)
+          def unquote(name)(attrs, block),
+            do: PhoenixComponents.View.component(unquote(namespace), unquote(name), attrs, block)
+        end
+      else
+        quote do
+          def unquote(name)(), do: PhoenixComponents.View.component(@namespace, unquote(name))
+
+          def unquote(name)(attrs),
+            do: PhoenixComponents.View.component(@namespace, unquote(name), attrs)
+
+          def unquote(name)(attrs, block),
+            do: PhoenixComponents.View.component(@namespace, unquote(name), attrs, block)
+        end
       end
     end
   end
 
-  defmacro __using__(_) do
+  defmacro __using__(namespace: namespace) do
     quote do
+      @namespace unquote(namespace)
       import PhoenixComponents.View
     end
   end
